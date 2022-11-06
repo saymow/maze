@@ -56,12 +56,14 @@ MoveChar:
 	push r0
 	push r1
 	
-	call MoveCharCalcPos
+	call CalcCharPosition
+	
 	load r0, characterPosition
 	load r1, characterLastPosition
-	
+		
 	cmp r0, r1
 	jeq MoverChar_End
+	
 	call eraseChar
 	call DrawChar 
 	
@@ -70,11 +72,12 @@ MoveChar:
 	pop r0
 	rts
 
-MoveCharCalcPos: 
+CalcCharPosition: 
 	push r0
 	push r1
 	push r2
 	push r3
+	push r4
 	
 	load r0, characterPosition
 	
@@ -82,69 +85,95 @@ MoveCharCalcPos:
 	
 	loadn r2, #'w'
 	cmp r1, r2
-	jeq MoveCharCalcPosUp
+	jeq CalcCharPositionUp
 	
 	loadn r2, #'a'
 	cmp r1, r2
-	jeq MoveCharCalcPosLeft
+	jeq CalcCharPositionLeft
 	
 	loadn r2, #'s'
 	cmp r1, r2
-	jeq MoveCharCalcPosDown
+	jeq CalcCharPositionDown
 
 	loadn r2, #'d'
 	cmp r1, r2
-	jeq MoveCharCalcPosRight
+	jeq CalcCharPositionRight
 	
-	MoveCharCalcPos_End:
+	checkCollision: 
+		call ensureMoveWontCollide
+	
+	CalcCharPosition_End:
 	store characterPosition, r0
+	CalcCharPosition_KeepSamePosition_End:
 	
+	pop r4
 	pop r3
 	pop r2
 	pop r1
 	pop r0
 	rts
 
-MoveCharCalcPosUp: 
+CalcCharPositionUp: 
 	loadn r1, #40
 	cmp r0, r1
-	jle MoveCharCalcPos_End
+	jle checkCollision
 	sub r0, r0, r1
-	jmp MoveCharCalcPos_End
+	jmp checkCollision
 
-MoveCharCalcPosLeft: 
+CalcCharPositionLeft: 
 	loadn r1, #40
 	loadn r2, #0
 	mod r1, r0, r1
 	cmp r1, r2
-	jeq MoveCharCalcPos_End
+	jeq checkCollision
 	dec r0
-	jmp MoveCharCalcPos_End
+	jmp checkCollision
 
-MoveCharCalcPosDown: 
+CalcCharPositionDown: 
 	loadn r1, #1159
 	cmp r0, r1
-	jgr MoveCharCalcPos_End
+	jgr checkCollision
 	loadn r1, #40
 	add r0, r0, r1
-	jmp MoveCharCalcPos_End
+	jmp checkCollision
 
-MoveCharCalcPosRight: 
+CalcCharPositionRight: 
 	loadn r1, #40
 	loadn r2, #39
 	mod r1, r0, r1
 	cmp r1, r2
-	jeq MoveCharCalcPos_End
+	jeq checkCollision
 	inc r0
-	jmp MoveCharCalcPos_End
+	jmp checkCollision
+
+ensureMoveWontCollide:
+	push r1
+	push r2
+	push r3
+	push r4
+	
+	loadn r4, #0 ;block charcode
+	loadn r1, #fase1
+	
+	add r2, r1, r0
+	loadi r3, r2
+	
+	cmp r3, r4
+	jne ensureMoveWontCollide_End 
+	load r0, characterPosition
+	
+	ensureMoveWontCollide_End:
+	pop r4
+	pop r3
+	pop r2
+	pop r1
+	rts
 
 eraseChar: 
 	push r0
 	push r1
 	push r2
 	push r3
-	push r4
-	push r5
 	
 	load r0, characterLastPosition
 	loadn r1, #fase1
@@ -153,8 +182,6 @@ eraseChar:
 	
 	outchar r3, r0 
 	
-	pop r5
-	pop r4
 	pop r3
 	pop r2
 	pop r1
@@ -204,7 +231,7 @@ printfase1Screen:
 
   	printfase1ScreenLoop:
 
-		add R3,R0,R1
+		add R3, R0, R1
 		loadi R3, R3
 		outchar R3, R1
 		inc R1
@@ -217,7 +244,6 @@ printfase1Screen:
   	pop R1
   	pop R0
   	rts
-  
  
 fase1 : var #1200
 ;Linha 0
