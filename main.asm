@@ -37,7 +37,7 @@ main:
 	loadn r1, #0
 		
 	Loop:
-		loadn r2, #20
+		loadn r2, #30
 		mod r2, r0, r2
 		cmp r2, r1
 		ceq MoveChar    
@@ -62,9 +62,9 @@ MoveChar:
 	cmp r0, r1
 	jeq MoverChar_End
 	
+	call refreshBrightedArea
 	call eraseChar
 	call DrawChar
-	call refreshBrightedArea
 	
 	MoverChar_End:
 	pop r1
@@ -209,6 +209,48 @@ refreshBrightedArea:
 	push r6
 	
 	loadn r3, #fase1
+	
+	loadn r5, #3967 ;black char  
+	
+	loadn r6, #1	
+	
+	mov r4, r1
+	sub r4, r4, r6
+	outchar r5, r4
+	
+	mov r4, r1
+	add r4, r4, r6
+	outchar r5, r4
+
+	loadn r6, #40	
+	
+	mov r4, r1
+	sub r4, r4, r6
+	outchar r5, r4
+	
+	mov r4, r1
+	add r4, r4, r6
+	outchar r5, r4
+	
+	loadn r6, #39	
+	
+	mov r4, r1
+	sub r4, r4, r6
+	outchar r5, r4
+	
+	mov r4, r1
+	add r4, r4, r6
+	outchar r5, r4
+	
+	loadn r6, #41	
+	
+	mov r4, r1
+	sub r4, r4, r6
+	outchar r5, r4
+	
+	mov r4, r1
+	add r4, r4, r6
+	outchar r5, r4
 	
 	loadn r6, #1
 	
