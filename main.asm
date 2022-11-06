@@ -37,7 +37,7 @@ main:
 	loadn r1, #0
 		
 	Loop:
-		loadn r2, #30
+		loadn r2, #20
 		mod r2, r0, r2
 		cmp r2, r1
 		ceq MoveChar    
@@ -203,91 +203,227 @@ DrawChar:
 refreshBrightedArea: 
 	push r0
 	push r1
+	push r2
 	push r3
 	push r4
 	push r5
 	push r6
+	push r7
 	
 	loadn r3, #fase1
-	
+	;---------------------------------
+	; apagando a área relativa a posição anterior
 	loadn r5, #3967 ;black char  
 	
 	loadn r6, #1	
 	
+	;;esquerda
 	mov r4, r1
 	sub r4, r4, r6
 	outchar r5, r4
 	
+	;;esquerda-esquerda
+	loadn r7, #40
+	
+	sub r4, r4, r6
+	mod r2, r4, r7
+	loadn r7, #39
+	cmp r2, r7
+	
+	jeg skipClearLeftLeft  
+	
+	outchar r5, r4
+	
+	skipClearLeftLeft:
+	
+	;;direita
 	mov r4, r1
 	add r4, r4, r6
 	outchar r5, r4
+	
+	;;direita-direita
+	loadn r7, #40
+	
+	add r4, r4, r6
+	mod r2, r4, r7
+	loadn r7, #1
+	cmp r2, r7
+	
+	jel skipEraseRightRight  
+	
+	outchar r5, r4
+	
+	skipEraseRightRight:
 
 	loadn r6, #40	
 	
+	;;cima
 	mov r4, r1
 	sub r4, r4, r6
 	outchar r5, r4
 	
+	;;cima-cima
+	
+	loadn r7, #0
+	
+	sub r4, r4, r6
+	cmp r4, r7
+	
+	jel skipEraseUpUp
+	
+	outchar r5, r4
+	
+	skipEraseUpUp: 
+	
+	;;baixo
 	mov r4, r1
 	add r4, r4, r6
 	outchar r5, r4
 	
+	;;baixo-baixo
+	
+	loadn r7, #1199
+	
+	add r4, r4, r6
+	cmp r4, r7
+	
+	jeg skipEraseDownDown
+	
+	outchar r5, r4
+	
+	skipEraseDownDown:
+	
 	loadn r6, #39	
 	
+	;;diagonal principal - direita
 	mov r4, r1
 	sub r4, r4, r6
 	outchar r5, r4
 	
+	;;diagonal principal - esquerda
 	mov r4, r1
 	add r4, r4, r6
 	outchar r5, r4
 	
 	loadn r6, #41	
 	
+	;;diagonal secundária - esquerda
 	mov r4, r1
 	sub r4, r4, r6
 	outchar r5, r4
 	
+	;;diagonal secundária - direita
 	mov r4, r1
 	add r4, r4, r6
 	outchar r5, r4
 	
+	;---------------------------------
+	; mostrando a área relativa a posição atual
+
 	loadn r6, #1
 	
+	;;esquerda
 	mov r4, r0
 	sub r4, r4, r6
 	add r5, r3, r4
 	loadi r5, r5
 	outchar r5, r4
 	
+	;;esquerda-esquerda
+	loadn r7, #40
+	
+	sub r4, r4, r6
+	mod r2, r4, r7
+	loadn r7, #39
+	cmp r2, r7
+	
+	jeg skipPrintLeftLeft  
+	
+	add r5, r3, r4
+	loadi r5, r5
+	outchar r5, r4
+	
+	skipPrintLeftLeft:
+	
+	;;direita
 	mov r4, r0
 	add r4, r4, r6
 	add r5, r3, r4
 	loadi r5, r5
 	outchar r5, r4
+	
+	;;direita-direita
+	loadn r7, #40
+	
+	add r4, r4, r6
+	mod r2, r4, r7
+	loadn r7, #1
+	cmp r2, r7
+	
+	jel skipPrintRightRight  
+	
+	add r5, r3, r4
+	loadi r5, r5
+	outchar r5, r4
+	
+	skipPrintRightRight:
 	
 	loadn r6, #40
 
+	;;cima
 	mov r4, r0
 	sub r4, r4, r6
 	add r5, r3, r4
 	loadi r5, r5
 	outchar r5, r4
 	
+	;;cima-cima
+	
+	loadn r7, #0
+	
+	sub r4, r4, r6
+	cmp r4, r7
+	
+	jel skipPrintUpUp
+	
+	add r5, r3, r4
+	loadi r5, r5
+	outchar r5, r4
+	
+	skipPrintUpUp: 
+	
+	;;baixo
 	mov r4, r0
 	add r4, r4, r6
 	add r5, r3, r4
 	loadi r5, r5
 	outchar r5, r4
+	
+	;;baixo-baixo
+	
+	loadn r7, #1199
+	
+	add r4, r4, r6
+	cmp r4, r7
+	
+	jeg skipPrintDownDown
+	
+	add r5, r3, r4
+	loadi r5, r5
+	outchar r5, r4
+	
+	skipPrintDownDown:
 	
 	loadn r6, #41
 
+	;;diagonal principal - esquerda
 	mov r4, r0
 	add r4, r4, r6
 	add r5, r3, r4
 	loadi r5, r5
 	outchar r5, r4
 	
+	;;diagonal principal - direita
 	mov r4, r0
 	sub r4, r4, r6
 	add r5, r3, r4
@@ -296,12 +432,14 @@ refreshBrightedArea:
 	
 	loadn r6, #39
 
+	;;diagonal secundária - esquerda
 	mov r4, r0
 	add r4, r4, r6
 	add r5, r3, r4
 	loadi r5, r5
 	outchar r5, r4
 	
+	;;diagonal secundária - direita
 	loadn r6, #39
 	mov r4, r0
 	sub r4, r4, r6
@@ -309,12 +447,14 @@ refreshBrightedArea:
 	loadi r5, r5
 	outchar r5, r4
 	
+	pop r7
 	pop r6
 	pop r5
 	pop r4
 	pop r3
 	pop r2
 	pop r1
+	pop r0
 	rts
 
 Delay:
