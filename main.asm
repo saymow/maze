@@ -30,8 +30,6 @@ jmp main
 ;---- Inicio do Programa Principal -----
 
 main:
-	call printfase1Screen
-	
 	loadn r0, #41
 	store characterPosition, r0	
 	
@@ -65,7 +63,8 @@ MoveChar:
 	jeq MoverChar_End
 	
 	call eraseChar
-	call DrawChar 
+	call DrawChar
+	call refreshBrightedArea
 	
 	MoverChar_End:
 	pop r1
@@ -201,6 +200,81 @@ DrawChar:
 	pop r2
 	rts
 
+refreshBrightedArea: 
+	push r0
+	push r1
+	push r3
+	push r4
+	push r5
+	push r6
+	
+	loadn r3, #fase1
+	
+	loadn r6, #1
+	
+	mov r4, r0
+	sub r4, r4, r6
+	add r5, r3, r4
+	loadi r5, r5
+	outchar r5, r4
+	
+	mov r4, r0
+	add r4, r4, r6
+	add r5, r3, r4
+	loadi r5, r5
+	outchar r5, r4
+	
+	loadn r6, #40
+
+	mov r4, r0
+	sub r4, r4, r6
+	add r5, r3, r4
+	loadi r5, r5
+	outchar r5, r4
+	
+	mov r4, r0
+	add r4, r4, r6
+	add r5, r3, r4
+	loadi r5, r5
+	outchar r5, r4
+	
+	loadn r6, #41
+
+	mov r4, r0
+	add r4, r4, r6
+	add r5, r3, r4
+	loadi r5, r5
+	outchar r5, r4
+	
+	mov r4, r0
+	sub r4, r4, r6
+	add r5, r3, r4
+	loadi r5, r5
+	outchar r5, r4
+	
+	loadn r6, #39
+
+	mov r4, r0
+	add r4, r4, r6
+	add r5, r3, r4
+	loadi r5, r5
+	outchar r5, r4
+	
+	loadn r6, #39
+	mov r4, r0
+	sub r4, r4, r6
+	add r5, r3, r4
+	loadi r5, r5
+	outchar r5, r4
+	
+	pop r6
+	pop r5
+	pop r4
+	pop r3
+	pop r2
+	pop r1
+	rts
+
 Delay:
 	push r0
 	push r1
@@ -244,7 +318,7 @@ printfase1Screen:
   	pop R1
   	pop R0
   	rts
- 
+
 fase1 : var #1200
 ;Linha 0
 static fase1 + #0, #0
