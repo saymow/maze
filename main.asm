@@ -30,6 +30,10 @@ jmp main
 ;---- Inicio do Programa Principal -----
 
 main:
+	call PrintInitialScreen
+	call WaitUntilSpaceIsPressed
+	call PrintBlackScreen
+
 	loadn r0, #41
 	store characterPosition, r0	
 	
@@ -37,7 +41,7 @@ main:
 	loadn r1, #0
 		
 	Loop:
-		loadn r2, #20
+		loadn r2, #30
 		mod r2, r0, r2
 		cmp r2, r1
 		ceq MoveChar    
@@ -49,6 +53,24 @@ main:
 	halt
 	
 ;---- Fim do Programa Principal -----
+	
+WaitUntilSpaceIsPressed:
+	push r0
+	push r1	
+	
+	loadn r0, #' '
+	
+	hangLoop:
+		inchar r1
+		cmp r0, r1
+		jeq WaitUntilSpaceIsPressed_End
+		jmp hangLoop
+		
+	WaitUntilSpaceIsPressed_End:	
+		
+	pop r1
+	pop r0
+	rts	
 	
 MoveChar: 
 	push r0
@@ -472,9 +494,56 @@ Delay:
 	
 	pop R1
 	pop R0
-	
 	rts				
 	
+PrintInitialScreen:
+  push R0
+  push R1
+  push R2
+  push R3
+
+  loadn R0, #inicial
+  loadn R1, #0
+  loadn R2, #1200
+
+  PrintInitialScreenLoop:
+
+    add R3,R0,R1
+    loadi R3, R3
+    outchar R3, R1
+    inc R1
+    cmp R1, R2
+
+    jne PrintInitialScreenLoop
+
+  pop R3
+  pop R2
+  pop R1
+  pop R0
+  rts
+
+PrintBlackScreen:
+  push R0
+  push R1
+  push R2
+  push R3
+  
+  loadn R0, #3967 ;; black char
+  loadn R1, #0
+  loadn R2, #1200
+
+  PrintBlackScreenLoop:
+  	outchar R0, R1
+  	inc R1
+    cmp R1, R2
+    jne PrintBlackScreenLoop
+
+  pop R3
+  pop R2
+  pop R1
+  pop R0
+  rts
+
 printfase1Screen:
 	push R0
  	push R1
@@ -500,6 +569,1267 @@ printfase1Screen:
   	pop R1
   	pop R0
   	rts
+  	
+inicial : var #1200
+;Linha 0
+static inicial + #0, #3967
+static inicial + #1, #3967
+static inicial + #2, #3967
+static inicial + #3, #3967
+static inicial + #4, #3967
+static inicial + #5, #3967
+static inicial + #6, #3967
+static inicial + #7, #3967
+static inicial + #8, #3967
+static inicial + #9, #3967
+static inicial + #10, #3967
+static inicial + #11, #3967
+static inicial + #12, #3967
+static inicial + #13, #3967
+static inicial + #14, #3967
+static inicial + #15, #3967
+static inicial + #16, #3967
+static inicial + #17, #3967
+static inicial + #18, #3967
+static inicial + #19, #3967
+static inicial + #20, #3967
+static inicial + #21, #3967
+static inicial + #22, #3967
+static inicial + #23, #3967
+static inicial + #24, #3967
+static inicial + #25, #3967
+static inicial + #26, #3967
+static inicial + #27, #3967
+static inicial + #28, #3967
+static inicial + #29, #3967
+static inicial + #30, #3967
+static inicial + #31, #3967
+static inicial + #32, #3967
+static inicial + #33, #3967
+static inicial + #34, #3967
+static inicial + #35, #3967
+static inicial + #36, #3967
+static inicial + #37, #3967
+static inicial + #38, #3967
+static inicial + #39, #3967
+
+;Linha 1
+static inicial + #40, #3967
+static inicial + #41, #3967
+static inicial + #42, #3967
+static inicial + #43, #3967
+static inicial + #44, #3967
+static inicial + #45, #3967
+static inicial + #46, #3967
+static inicial + #47, #3967
+static inicial + #48, #3967
+static inicial + #49, #3967
+static inicial + #50, #3967
+static inicial + #51, #3967
+static inicial + #52, #3967
+static inicial + #53, #3967
+static inicial + #54, #3967
+static inicial + #55, #3967
+static inicial + #56, #3967
+static inicial + #57, #3967
+static inicial + #58, #3967
+static inicial + #59, #3967
+static inicial + #60, #3967
+static inicial + #61, #3967
+static inicial + #62, #3967
+static inicial + #63, #3967
+static inicial + #64, #3967
+static inicial + #65, #3967
+static inicial + #66, #3967
+static inicial + #67, #3967
+static inicial + #68, #3967
+static inicial + #69, #3967
+static inicial + #70, #3967
+static inicial + #71, #3967
+static inicial + #72, #3967
+static inicial + #73, #3967
+static inicial + #74, #3967
+static inicial + #75, #3967
+static inicial + #76, #3967
+static inicial + #77, #3967
+static inicial + #78, #3967
+static inicial + #79, #3967
+
+;Linha 2
+static inicial + #80, #3967
+static inicial + #81, #3967
+static inicial + #82, #3967
+static inicial + #83, #3967
+static inicial + #84, #3967
+static inicial + #85, #3967
+static inicial + #86, #3967
+static inicial + #87, #3967
+static inicial + #88, #3967
+static inicial + #89, #3967
+static inicial + #90, #3967
+static inicial + #91, #3967
+static inicial + #92, #3967
+static inicial + #93, #3967
+static inicial + #94, #3967
+static inicial + #95, #3967
+static inicial + #96, #3967
+static inicial + #97, #3967
+static inicial + #98, #3967
+static inicial + #99, #3967
+static inicial + #100, #3967
+static inicial + #101, #3967
+static inicial + #102, #3967
+static inicial + #103, #3967
+static inicial + #104, #3967
+static inicial + #105, #3967
+static inicial + #106, #3967
+static inicial + #107, #3967
+static inicial + #108, #3967
+static inicial + #109, #3967
+static inicial + #110, #3967
+static inicial + #111, #3967
+static inicial + #112, #3967
+static inicial + #113, #3967
+static inicial + #114, #3967
+static inicial + #115, #3967
+static inicial + #116, #3967
+static inicial + #117, #3967
+static inicial + #118, #3967
+static inicial + #119, #3967
+
+;Linha 3
+static inicial + #120, #3967
+static inicial + #121, #3967
+static inicial + #122, #3967
+static inicial + #123, #3967
+static inicial + #124, #3967
+static inicial + #125, #3967
+static inicial + #126, #3967
+static inicial + #127, #3967
+static inicial + #128, #3967
+static inicial + #129, #3967
+static inicial + #130, #3967
+static inicial + #131, #3967
+static inicial + #132, #3967
+static inicial + #133, #3967
+static inicial + #134, #3967
+static inicial + #135, #3967
+static inicial + #136, #3967
+static inicial + #137, #3967
+static inicial + #138, #3967
+static inicial + #139, #3967
+static inicial + #140, #3967
+static inicial + #141, #3967
+static inicial + #142, #3967
+static inicial + #143, #3967
+static inicial + #144, #3967
+static inicial + #145, #3967
+static inicial + #146, #3967
+static inicial + #147, #3967
+static inicial + #148, #3967
+static inicial + #149, #3967
+static inicial + #150, #3967
+static inicial + #151, #3967
+static inicial + #152, #3967
+static inicial + #153, #3967
+static inicial + #154, #3967
+static inicial + #155, #3967
+static inicial + #156, #3967
+static inicial + #157, #3967
+static inicial + #158, #3967
+static inicial + #159, #3967
+
+;Linha 4
+static inicial + #160, #3967
+static inicial + #161, #3967
+static inicial + #162, #3967
+static inicial + #163, #3967
+static inicial + #164, #3967
+static inicial + #165, #3967
+static inicial + #166, #3967
+static inicial + #167, #3967
+static inicial + #168, #3967
+static inicial + #169, #3967
+static inicial + #170, #3967
+static inicial + #171, #3967
+static inicial + #172, #3967
+static inicial + #173, #3967
+static inicial + #174, #3967
+static inicial + #175, #3967
+static inicial + #176, #3967
+static inicial + #177, #3967
+static inicial + #178, #3967
+static inicial + #179, #3967
+static inicial + #180, #3967
+static inicial + #181, #3967
+static inicial + #182, #3967
+static inicial + #183, #3967
+static inicial + #184, #3967
+static inicial + #185, #3967
+static inicial + #186, #3967
+static inicial + #187, #3967
+static inicial + #188, #3967
+static inicial + #189, #3967
+static inicial + #190, #3967
+static inicial + #191, #3967
+static inicial + #192, #3967
+static inicial + #193, #3967
+static inicial + #194, #3967
+static inicial + #195, #3967
+static inicial + #196, #3967
+static inicial + #197, #3967
+static inicial + #198, #3967
+static inicial + #199, #3967
+
+;Linha 5
+static inicial + #200, #3967
+static inicial + #201, #3967
+static inicial + #202, #3967
+static inicial + #203, #3967
+static inicial + #204, #3967
+static inicial + #205, #3967
+static inicial + #206, #3967
+static inicial + #207, #3967
+static inicial + #208, #3967
+static inicial + #209, #3967
+static inicial + #210, #3967
+static inicial + #211, #3967
+static inicial + #212, #3967
+static inicial + #213, #3967
+static inicial + #214, #3967
+static inicial + #215, #3967
+static inicial + #216, #3967
+static inicial + #217, #3967
+static inicial + #218, #3967
+static inicial + #219, #3967
+static inicial + #220, #3967
+static inicial + #221, #3967
+static inicial + #222, #3967
+static inicial + #223, #3967
+static inicial + #224, #3967
+static inicial + #225, #3967
+static inicial + #226, #3967
+static inicial + #227, #3967
+static inicial + #228, #3967
+static inicial + #229, #3967
+static inicial + #230, #3967
+static inicial + #231, #3967
+static inicial + #232, #3967
+static inicial + #233, #3967
+static inicial + #234, #3967
+static inicial + #235, #3967
+static inicial + #236, #3967
+static inicial + #237, #3967
+static inicial + #238, #3967
+static inicial + #239, #3967
+
+;Linha 6
+static inicial + #240, #3967
+static inicial + #241, #3967
+static inicial + #242, #3967
+static inicial + #243, #3967
+static inicial + #244, #3967
+static inicial + #245, #3967
+static inicial + #246, #3967
+static inicial + #247, #3967
+static inicial + #248, #3967
+static inicial + #249, #3967
+static inicial + #250, #3967
+static inicial + #251, #3967
+static inicial + #252, #3967
+static inicial + #253, #3967
+static inicial + #254, #3967
+static inicial + #255, #3967
+static inicial + #256, #3967
+static inicial + #257, #3967
+static inicial + #258, #3967
+static inicial + #259, #3967
+static inicial + #260, #3967
+static inicial + #261, #3967
+static inicial + #262, #3967
+static inicial + #263, #3967
+static inicial + #264, #3967
+static inicial + #265, #3967
+static inicial + #266, #3967
+static inicial + #267, #3967
+static inicial + #268, #3967
+static inicial + #269, #3967
+static inicial + #270, #3967
+static inicial + #271, #3967
+static inicial + #272, #3967
+static inicial + #273, #3967
+static inicial + #274, #3967
+static inicial + #275, #3967
+static inicial + #276, #3967
+static inicial + #277, #3967
+static inicial + #278, #3967
+static inicial + #279, #3967
+
+;Linha 7
+static inicial + #280, #3967
+static inicial + #281, #3967
+static inicial + #282, #3967
+static inicial + #283, #0
+static inicial + #284, #0
+static inicial + #285, #0
+static inicial + #286, #0
+static inicial + #287, #0
+static inicial + #288, #0
+static inicial + #289, #0
+static inicial + #290, #0
+static inicial + #291, #0
+static inicial + #292, #3967
+static inicial + #293, #3967
+static inicial + #294, #3967
+static inicial + #295, #3967
+static inicial + #296, #3967
+static inicial + #297, #3967
+static inicial + #298, #3967
+static inicial + #299, #3967
+static inicial + #300, #3967
+static inicial + #301, #3967
+static inicial + #302, #3967
+static inicial + #303, #3967
+static inicial + #304, #3967
+static inicial + #305, #3967
+static inicial + #306, #3967
+static inicial + #307, #3967
+static inicial + #308, #3967
+static inicial + #309, #3967
+static inicial + #310, #3967
+static inicial + #311, #3967
+static inicial + #312, #3967
+static inicial + #313, #3967
+static inicial + #314, #3967
+static inicial + #315, #3967
+static inicial + #316, #3967
+static inicial + #317, #3967
+static inicial + #318, #3967
+static inicial + #319, #3967
+
+;Linha 8
+static inicial + #320, #3967
+static inicial + #321, #3967
+static inicial + #322, #3967
+static inicial + #323, #0
+static inicial + #324, #3967
+static inicial + #325, #3967
+static inicial + #326, #3967
+static inicial + #327, #3967
+static inicial + #328, #3967
+static inicial + #329, #3967
+static inicial + #330, #3967
+static inicial + #331, #3967
+static inicial + #332, #3967
+static inicial + #333, #3967
+static inicial + #334, #3967
+static inicial + #335, #3967
+static inicial + #336, #3967
+static inicial + #337, #3967
+static inicial + #338, #3967
+static inicial + #339, #3967
+static inicial + #340, #3967
+static inicial + #341, #3967
+static inicial + #342, #3967
+static inicial + #343, #3967
+static inicial + #344, #3967
+static inicial + #345, #3967
+static inicial + #346, #3967
+static inicial + #347, #3967
+static inicial + #348, #3967
+static inicial + #349, #3967
+static inicial + #350, #3967
+static inicial + #351, #3967
+static inicial + #352, #3967
+static inicial + #353, #3967
+static inicial + #354, #3967
+static inicial + #355, #3967
+static inicial + #356, #3967
+static inicial + #357, #3967
+static inicial + #358, #3967
+static inicial + #359, #3967
+
+;Linha 9
+static inicial + #360, #3967
+static inicial + #361, #3967
+static inicial + #362, #3967
+static inicial + #363, #0
+static inicial + #364, #3967
+static inicial + #365, #3967
+static inicial + #366, #3967
+static inicial + #367, #3967
+static inicial + #368, #3967
+static inicial + #369, #3967
+static inicial + #370, #3967
+static inicial + #371, #3967
+static inicial + #372, #3967
+static inicial + #373, #3967
+static inicial + #374, #3967
+static inicial + #375, #3967
+static inicial + #376, #3967
+static inicial + #377, #3967
+static inicial + #378, #3967
+static inicial + #379, #3967
+static inicial + #380, #3967
+static inicial + #381, #3967
+static inicial + #382, #3967
+static inicial + #383, #3967
+static inicial + #384, #3967
+static inicial + #385, #3967
+static inicial + #386, #3967
+static inicial + #387, #3967
+static inicial + #388, #3967
+static inicial + #389, #3967
+static inicial + #390, #3967
+static inicial + #391, #3967
+static inicial + #392, #3967
+static inicial + #393, #3967
+static inicial + #394, #3967
+static inicial + #395, #3967
+static inicial + #396, #3967
+static inicial + #397, #3967
+static inicial + #398, #3967
+static inicial + #399, #3967
+
+;Linha 10
+static inicial + #400, #3967
+static inicial + #401, #3967
+static inicial + #402, #3967
+static inicial + #403, #0
+static inicial + #404, #3967
+static inicial + #405, #3967
+static inicial + #406, #3967
+static inicial + #407, #3967
+static inicial + #408, #3967
+static inicial + #409, #3967
+static inicial + #410, #3967
+static inicial + #411, #3967
+static inicial + #412, #3967
+static inicial + #413, #3967
+static inicial + #414, #3967
+static inicial + #415, #3967
+static inicial + #416, #3967
+static inicial + #417, #3967
+static inicial + #418, #3967
+static inicial + #419, #3967
+static inicial + #420, #3967
+static inicial + #421, #3967
+static inicial + #422, #3967
+static inicial + #423, #3967
+static inicial + #424, #3967
+static inicial + #425, #3967
+static inicial + #426, #3967
+static inicial + #427, #3967
+static inicial + #428, #3967
+static inicial + #429, #3967
+static inicial + #430, #3967
+static inicial + #431, #3967
+static inicial + #432, #3967
+static inicial + #433, #3967
+static inicial + #434, #3967
+static inicial + #435, #3967
+static inicial + #436, #3967
+static inicial + #437, #3967
+static inicial + #438, #3967
+static inicial + #439, #3967
+
+;Linha 11
+static inicial + #440, #3967
+static inicial + #441, #3967
+static inicial + #442, #3967
+static inicial + #443, #0
+static inicial + #444, #3967
+static inicial + #445, #3967
+static inicial + #446, #3967
+static inicial + #447, #3967
+static inicial + #448, #3967
+static inicial + #449, #3967
+static inicial + #450, #3967
+static inicial + #451, #3967
+static inicial + #452, #3967
+static inicial + #453, #3967
+static inicial + #454, #3967
+static inicial + #455, #3967
+static inicial + #456, #3967
+static inicial + #457, #3967
+static inicial + #458, #3967
+static inicial + #459, #3967
+static inicial + #460, #3967
+static inicial + #461, #3967
+static inicial + #462, #3967
+static inicial + #463, #3967
+static inicial + #464, #3967
+static inicial + #465, #3967
+static inicial + #466, #3967
+static inicial + #467, #3967
+static inicial + #468, #3967
+static inicial + #469, #3967
+static inicial + #470, #3967
+static inicial + #471, #3967
+static inicial + #472, #3967
+static inicial + #473, #3967
+static inicial + #474, #3967
+static inicial + #475, #3967
+static inicial + #476, #3967
+static inicial + #477, #3967
+static inicial + #478, #3967
+static inicial + #479, #3967
+
+;Linha 12
+static inicial + #480, #3967
+static inicial + #481, #3967
+static inicial + #482, #3967
+static inicial + #483, #0
+static inicial + #484, #0
+static inicial + #485, #0
+static inicial + #486, #0
+static inicial + #487, #0
+static inicial + #488, #0
+static inicial + #489, #0
+static inicial + #490, #0
+static inicial + #491, #0
+static inicial + #492, #3967
+static inicial + #493, #0
+static inicial + #494, #0
+static inicial + #495, #0
+static inicial + #496, #0
+static inicial + #497, #0
+static inicial + #498, #3967
+static inicial + #499, #3967
+static inicial + #500, #3967
+static inicial + #501, #0
+static inicial + #502, #0
+static inicial + #503, #0
+static inicial + #504, #3967
+static inicial + #505, #3967
+static inicial + #506, #3967
+static inicial + #507, #3967
+static inicial + #508, #0
+static inicial + #509, #0
+static inicial + #510, #0
+static inicial + #511, #0
+static inicial + #512, #3967
+static inicial + #513, #0
+static inicial + #514, #0
+static inicial + #515, #0
+static inicial + #516, #0
+static inicial + #517, #3967
+static inicial + #518, #3967
+static inicial + #519, #3967
+
+;Linha 13
+static inicial + #520, #3967
+static inicial + #521, #3967
+static inicial + #522, #3967
+static inicial + #523, #3967
+static inicial + #524, #3967
+static inicial + #525, #3967
+static inicial + #526, #3967
+static inicial + #527, #3967
+static inicial + #528, #3967
+static inicial + #529, #3967
+static inicial + #530, #3967
+static inicial + #531, #0
+static inicial + #532, #3967
+static inicial + #533, #0
+static inicial + #534, #3967
+static inicial + #535, #3967
+static inicial + #536, #3967
+static inicial + #537, #0
+static inicial + #538, #3967
+static inicial + #539, #3967
+static inicial + #540, #3967
+static inicial + #541, #0
+static inicial + #542, #3967
+static inicial + #543, #0
+static inicial + #544, #3967
+static inicial + #545, #3967
+static inicial + #546, #3967
+static inicial + #547, #3967
+static inicial + #548, #0
+static inicial + #549, #3967
+static inicial + #550, #3967
+static inicial + #551, #3967
+static inicial + #552, #3967
+static inicial + #553, #0
+static inicial + #554, #3967
+static inicial + #555, #3967
+static inicial + #556, #3967
+static inicial + #557, #3967
+static inicial + #558, #3967
+static inicial + #559, #3967
+
+;Linha 14
+static inicial + #560, #3967
+static inicial + #561, #3967
+static inicial + #562, #3967
+static inicial + #563, #3967
+static inicial + #564, #3967
+static inicial + #565, #3967
+static inicial + #566, #3967
+static inicial + #567, #3967
+static inicial + #568, #3967
+static inicial + #569, #3967
+static inicial + #570, #3967
+static inicial + #571, #0
+static inicial + #572, #3967
+static inicial + #573, #0
+static inicial + #574, #3967
+static inicial + #575, #3967
+static inicial + #576, #3967
+static inicial + #577, #0
+static inicial + #578, #3967
+static inicial + #579, #3967
+static inicial + #580, #3967
+static inicial + #581, #0
+static inicial + #582, #3967
+static inicial + #583, #0
+static inicial + #584, #3967
+static inicial + #585, #3967
+static inicial + #586, #3967
+static inicial + #587, #0
+static inicial + #588, #0
+static inicial + #589, #3967
+static inicial + #590, #3967
+static inicial + #591, #3967
+static inicial + #592, #3967
+static inicial + #593, #0
+static inicial + #594, #3967
+static inicial + #595, #3967
+static inicial + #596, #3967
+static inicial + #597, #3967
+static inicial + #598, #3967
+static inicial + #599, #3967
+
+;Linha 15
+static inicial + #600, #3967
+static inicial + #601, #3967
+static inicial + #602, #3967
+static inicial + #603, #3967
+static inicial + #604, #3967
+static inicial + #605, #3967
+static inicial + #606, #3967
+static inicial + #607, #3967
+static inicial + #608, #3967
+static inicial + #609, #3967
+static inicial + #610, #3967
+static inicial + #611, #0
+static inicial + #612, #3967
+static inicial + #613, #0
+static inicial + #614, #3967
+static inicial + #615, #3967
+static inicial + #616, #3967
+static inicial + #617, #0
+static inicial + #618, #3967
+static inicial + #619, #3967
+static inicial + #620, #0
+static inicial + #621, #3967
+static inicial + #622, #3967
+static inicial + #623, #3967
+static inicial + #624, #0
+static inicial + #625, #3967
+static inicial + #626, #3967
+static inicial + #627, #0
+static inicial + #628, #3967
+static inicial + #629, #3967
+static inicial + #630, #3967
+static inicial + #631, #3967
+static inicial + #632, #3967
+static inicial + #633, #0
+static inicial + #634, #3967
+static inicial + #635, #3967
+static inicial + #636, #3967
+static inicial + #637, #3967
+static inicial + #638, #3967
+static inicial + #639, #3967
+
+;Linha 16
+static inicial + #640, #3967
+static inicial + #641, #3967
+static inicial + #642, #3967
+static inicial + #643, #3967
+static inicial + #644, #3967
+static inicial + #645, #3967
+static inicial + #646, #3967
+static inicial + #647, #3967
+static inicial + #648, #3967
+static inicial + #649, #3967
+static inicial + #650, #3967
+static inicial + #651, #0
+static inicial + #652, #3967
+static inicial + #653, #0
+static inicial + #654, #3967
+static inicial + #655, #3967
+static inicial + #656, #3967
+static inicial + #657, #0
+static inicial + #658, #3967
+static inicial + #659, #3967
+static inicial + #660, #0
+static inicial + #661, #3967
+static inicial + #662, #3967
+static inicial + #663, #3967
+static inicial + #664, #0
+static inicial + #665, #3967
+static inicial + #666, #3967
+static inicial + #667, #0
+static inicial + #668, #3967
+static inicial + #669, #3967
+static inicial + #670, #3967
+static inicial + #671, #3967
+static inicial + #672, #3967
+static inicial + #673, #0
+static inicial + #674, #3967
+static inicial + #675, #3967
+static inicial + #676, #3967
+static inicial + #677, #3967
+static inicial + #678, #3967
+static inicial + #679, #3967
+
+;Linha 17
+static inicial + #680, #3967
+static inicial + #681, #3967
+static inicial + #682, #3967
+static inicial + #683, #3967
+static inicial + #684, #3967
+static inicial + #685, #3967
+static inicial + #686, #3967
+static inicial + #687, #3967
+static inicial + #688, #3967
+static inicial + #689, #3967
+static inicial + #690, #3967
+static inicial + #691, #0
+static inicial + #692, #3967
+static inicial + #693, #0
+static inicial + #694, #0
+static inicial + #695, #0
+static inicial + #696, #0
+static inicial + #697, #0
+static inicial + #698, #3967
+static inicial + #699, #3967
+static inicial + #700, #0
+static inicial + #701, #3967
+static inicial + #702, #3967
+static inicial + #703, #3967
+static inicial + #704, #0
+static inicial + #705, #3967
+static inicial + #706, #3967
+static inicial + #707, #0
+static inicial + #708, #3967
+static inicial + #709, #3967
+static inicial + #710, #3967
+static inicial + #711, #3967
+static inicial + #712, #3967
+static inicial + #713, #0
+static inicial + #714, #0
+static inicial + #715, #0
+static inicial + #716, #0
+static inicial + #717, #3967
+static inicial + #718, #3967
+static inicial + #719, #3967
+
+;Linha 18
+static inicial + #720, #3967
+static inicial + #721, #3967
+static inicial + #722, #3967
+static inicial + #723, #3967
+static inicial + #724, #3967
+static inicial + #725, #3967
+static inicial + #726, #3967
+static inicial + #727, #3967
+static inicial + #728, #3967
+static inicial + #729, #3967
+static inicial + #730, #3967
+static inicial + #731, #0
+static inicial + #732, #3967
+static inicial + #733, #0
+static inicial + #734, #3967
+static inicial + #735, #3967
+static inicial + #736, #3967
+static inicial + #737, #3967
+static inicial + #738, #3967
+static inicial + #739, #3967
+static inicial + #740, #0
+static inicial + #741, #3967
+static inicial + #742, #3967
+static inicial + #743, #3967
+static inicial + #744, #0
+static inicial + #745, #3967
+static inicial + #746, #3967
+static inicial + #747, #0
+static inicial + #748, #0
+static inicial + #749, #3967
+static inicial + #750, #3967
+static inicial + #751, #3967
+static inicial + #752, #3967
+static inicial + #753, #0
+static inicial + #754, #3967
+static inicial + #755, #3967
+static inicial + #756, #3967
+static inicial + #757, #3967
+static inicial + #758, #3967
+static inicial + #759, #3967
+
+;Linha 19
+static inicial + #760, #3967
+static inicial + #761, #3967
+static inicial + #762, #3967
+static inicial + #763, #3967
+static inicial + #764, #3967
+static inicial + #765, #3967
+static inicial + #766, #3967
+static inicial + #767, #3967
+static inicial + #768, #3967
+static inicial + #769, #3967
+static inicial + #770, #3967
+static inicial + #771, #0
+static inicial + #772, #3967
+static inicial + #773, #0
+static inicial + #774, #3967
+static inicial + #775, #3967
+static inicial + #776, #3967
+static inicial + #777, #3967
+static inicial + #778, #3967
+static inicial + #779, #0
+static inicial + #780, #0
+static inicial + #781, #0
+static inicial + #782, #0
+static inicial + #783, #0
+static inicial + #784, #0
+static inicial + #785, #0
+static inicial + #786, #3967
+static inicial + #787, #3967
+static inicial + #788, #0
+static inicial + #789, #3967
+static inicial + #790, #3967
+static inicial + #791, #3967
+static inicial + #792, #3967
+static inicial + #793, #0
+static inicial + #794, #3967
+static inicial + #795, #3967
+static inicial + #796, #3967
+static inicial + #797, #3967
+static inicial + #798, #3967
+static inicial + #799, #3967
+
+;Linha 20
+static inicial + #800, #3967
+static inicial + #801, #3967
+static inicial + #802, #3967
+static inicial + #803, #3967
+static inicial + #804, #3967
+static inicial + #805, #3967
+static inicial + #806, #3967
+static inicial + #807, #3967
+static inicial + #808, #3967
+static inicial + #809, #3967
+static inicial + #810, #3967
+static inicial + #811, #0
+static inicial + #812, #3967
+static inicial + #813, #0
+static inicial + #814, #3967
+static inicial + #815, #3967
+static inicial + #816, #3967
+static inicial + #817, #3967
+static inicial + #818, #3967
+static inicial + #819, #0
+static inicial + #820, #3967
+static inicial + #821, #3967
+static inicial + #822, #3967
+static inicial + #823, #3967
+static inicial + #824, #3967
+static inicial + #825, #0
+static inicial + #826, #3967
+static inicial + #827, #3967
+static inicial + #828, #0
+static inicial + #829, #3967
+static inicial + #830, #3967
+static inicial + #831, #3967
+static inicial + #832, #3967
+static inicial + #833, #0
+static inicial + #834, #3967
+static inicial + #835, #3967
+static inicial + #836, #3967
+static inicial + #837, #3967
+static inicial + #838, #3967
+static inicial + #839, #3967
+
+;Linha 21
+static inicial + #840, #3967
+static inicial + #841, #3967
+static inicial + #842, #3967
+static inicial + #843, #3967
+static inicial + #844, #3967
+static inicial + #845, #3967
+static inicial + #846, #3967
+static inicial + #847, #3967
+static inicial + #848, #3967
+static inicial + #849, #3967
+static inicial + #850, #3967
+static inicial + #851, #0
+static inicial + #852, #3967
+static inicial + #853, #0
+static inicial + #854, #3967
+static inicial + #855, #3967
+static inicial + #856, #3967
+static inicial + #857, #3967
+static inicial + #858, #0
+static inicial + #859, #3967
+static inicial + #860, #3967
+static inicial + #861, #3967
+static inicial + #862, #3967
+static inicial + #863, #3967
+static inicial + #864, #3967
+static inicial + #865, #3967
+static inicial + #866, #0
+static inicial + #867, #3967
+static inicial + #868, #0
+static inicial + #869, #0
+static inicial + #870, #3967
+static inicial + #871, #3967
+static inicial + #872, #3967
+static inicial + #873, #0
+static inicial + #874, #3967
+static inicial + #875, #3967
+static inicial + #876, #3967
+static inicial + #877, #3967
+static inicial + #878, #3967
+static inicial + #879, #3967
+
+;Linha 22
+static inicial + #880, #3967
+static inicial + #881, #3967
+static inicial + #882, #3967
+static inicial + #883, #0
+static inicial + #884, #0
+static inicial + #885, #0
+static inicial + #886, #0
+static inicial + #887, #0
+static inicial + #888, #0
+static inicial + #889, #0
+static inicial + #890, #0
+static inicial + #891, #0
+static inicial + #892, #3967
+static inicial + #893, #0
+static inicial + #894, #3967
+static inicial + #895, #3967
+static inicial + #896, #3967
+static inicial + #897, #3967
+static inicial + #898, #0
+static inicial + #899, #3967
+static inicial + #900, #3967
+static inicial + #901, #3967
+static inicial + #902, #3967
+static inicial + #903, #3967
+static inicial + #904, #3967
+static inicial + #905, #3967
+static inicial + #906, #0
+static inicial + #907, #3967
+static inicial + #908, #3967
+static inicial + #909, #0
+static inicial + #910, #0
+static inicial + #911, #0
+static inicial + #912, #3967
+static inicial + #913, #0
+static inicial + #914, #0
+static inicial + #915, #0
+static inicial + #916, #0
+static inicial + #917, #3967
+static inicial + #918, #3967
+static inicial + #919, #3967
+
+;Linha 23
+static inicial + #920, #3967
+static inicial + #921, #3967
+static inicial + #922, #3967
+static inicial + #923, #3967
+static inicial + #924, #3967
+static inicial + #925, #3967
+static inicial + #926, #3967
+static inicial + #927, #3967
+static inicial + #928, #3967
+static inicial + #929, #3967
+static inicial + #930, #3967
+static inicial + #931, #3967
+static inicial + #932, #3967
+static inicial + #933, #3967
+static inicial + #934, #3967
+static inicial + #935, #3967
+static inicial + #936, #3967
+static inicial + #937, #3967
+static inicial + #938, #3967
+static inicial + #939, #3967
+static inicial + #940, #3967
+static inicial + #941, #3967
+static inicial + #942, #3967
+static inicial + #943, #3967
+static inicial + #944, #3967
+static inicial + #945, #3967
+static inicial + #946, #3967
+static inicial + #947, #3967
+static inicial + #948, #3967
+static inicial + #949, #3967
+static inicial + #950, #3967
+static inicial + #951, #3967
+static inicial + #952, #3967
+static inicial + #953, #3967
+static inicial + #954, #3967
+static inicial + #955, #3967
+static inicial + #956, #3967
+static inicial + #957, #3967
+static inicial + #958, #3967
+static inicial + #959, #3967
+
+;Linha 24
+static inicial + #960, #3967
+static inicial + #961, #3967
+static inicial + #962, #3967
+static inicial + #963, #3967
+static inicial + #964, #3967
+static inicial + #965, #3967
+static inicial + #966, #3967
+static inicial + #967, #3967
+static inicial + #968, #3967
+static inicial + #969, #3967
+static inicial + #970, #3967
+static inicial + #971, #3967
+static inicial + #972, #3967
+static inicial + #973, #3967
+static inicial + #974, #3967
+static inicial + #975, #3967
+static inicial + #976, #3967
+static inicial + #977, #3967
+static inicial + #978, #3967
+static inicial + #979, #3967
+static inicial + #980, #3967
+static inicial + #981, #3967
+static inicial + #982, #3967
+static inicial + #983, #3967
+static inicial + #984, #3967
+static inicial + #985, #3967
+static inicial + #986, #3967
+static inicial + #987, #3967
+static inicial + #988, #3967
+static inicial + #989, #3967
+static inicial + #990, #3967
+static inicial + #991, #3967
+static inicial + #992, #3967
+static inicial + #993, #3967
+static inicial + #994, #3967
+static inicial + #995, #3967
+static inicial + #996, #3967
+static inicial + #997, #3967
+static inicial + #998, #3967
+static inicial + #999, #3967
+
+;Linha 25
+static inicial + #1000, #3967
+static inicial + #1001, #3967
+static inicial + #1002, #3967
+static inicial + #1003, #3967
+static inicial + #1004, #3967
+static inicial + #1005, #3967
+static inicial + #1006, #3967
+static inicial + #1007, #3967
+static inicial + #1008, #3967
+static inicial + #1009, #3967
+static inicial + #1010, #3967
+static inicial + #1011, #3967
+static inicial + #1012, #3967
+static inicial + #1013, #3967
+static inicial + #1014, #3967
+static inicial + #1015, #3967
+static inicial + #1016, #3967
+static inicial + #1017, #3967
+static inicial + #1018, #3967
+static inicial + #1019, #3967
+static inicial + #1020, #3967
+static inicial + #1021, #3967
+static inicial + #1022, #3967
+static inicial + #1023, #3967
+static inicial + #1024, #3967
+static inicial + #1025, #3967
+static inicial + #1026, #3967
+static inicial + #1027, #3967
+static inicial + #1028, #3967
+static inicial + #1029, #3967
+static inicial + #1030, #3967
+static inicial + #1031, #3967
+static inicial + #1032, #3967
+static inicial + #1033, #3967
+static inicial + #1034, #3967
+static inicial + #1035, #3967
+static inicial + #1036, #3967
+static inicial + #1037, #3967
+static inicial + #1038, #3967
+static inicial + #1039, #3967
+
+;Linha 26
+static inicial + #1040, #3967
+static inicial + #1041, #3967
+static inicial + #1042, #3967
+static inicial + #1043, #3967
+static inicial + #1044, #3967
+static inicial + #1045, #3967
+static inicial + #1046, #3967
+static inicial + #1047, #3967
+static inicial + #1048, #3967
+static inicial + #1049, #3967
+static inicial + #1050, #3967
+static inicial + #1051, #3967
+static inicial + #1052, #3967
+static inicial + #1053, #3967
+static inicial + #1054, #3967
+static inicial + #1055, #3967
+static inicial + #1056, #3967
+static inicial + #1057, #3967
+static inicial + #1058, #3967
+static inicial + #1059, #3967
+static inicial + #1060, #3967
+static inicial + #1061, #3967
+static inicial + #1062, #3967
+static inicial + #1063, #3967
+static inicial + #1064, #3967
+static inicial + #1065, #3967
+static inicial + #1066, #3967
+static inicial + #1067, #3967
+static inicial + #1068, #3967
+static inicial + #1069, #3967
+static inicial + #1070, #3967
+static inicial + #1071, #3967
+static inicial + #1072, #3967
+static inicial + #1073, #3967
+static inicial + #1074, #3967
+static inicial + #1075, #3967
+static inicial + #1076, #3967
+static inicial + #1077, #3967
+static inicial + #1078, #3967
+static inicial + #1079, #3967
+
+;Linha 27
+static inicial + #1080, #3967
+static inicial + #1081, #3967
+static inicial + #1082, #3967
+static inicial + #1083, #3967
+static inicial + #1084, #3967
+static inicial + #1085, #3967
+static inicial + #1086, #3967
+static inicial + #1087, #3967
+static inicial + #1088, #3967
+static inicial + #1089, #3967
+static inicial + #1090, #3967
+static inicial + #1091, #3967
+static inicial + #1092, #3967
+static inicial + #1093, #3967
+static inicial + #1094, #3967
+static inicial + #1095, #3967
+static inicial + #1096, #3967
+static inicial + #1097, #3967
+static inicial + #1098, #3967
+static inicial + #1099, #3967
+static inicial + #1100, #3967
+static inicial + #1101, #3967
+static inicial + #1102, #3967
+static inicial + #1103, #3967
+static inicial + #1104, #3967
+static inicial + #1105, #3967
+static inicial + #1106, #3967
+static inicial + #1107, #3967
+static inicial + #1108, #3967
+static inicial + #1109, #3967
+static inicial + #1110, #3967
+static inicial + #1111, #3967
+static inicial + #1112, #3967
+static inicial + #1113, #3967
+static inicial + #1114, #3967
+static inicial + #1115, #3967
+static inicial + #1116, #3967
+static inicial + #1117, #3967
+static inicial + #1118, #3967
+static inicial + #1119, #3967
+
+;Linha 28
+static inicial + #1120, #3967
+static inicial + #1121, #3967
+static inicial + #1122, #3967
+static inicial + #1123, #3967
+static inicial + #1124, #3967
+static inicial + #1125, #3967
+static inicial + #1126, #3967
+static inicial + #1127, #3967
+static inicial + #1128, #3967
+static inicial + #1129, #3967
+static inicial + #1130, #3967
+static inicial + #1131, #3967
+static inicial + #1132, #3967
+static inicial + #1133, #3967
+static inicial + #1134, #3967
+static inicial + #1135, #3967
+static inicial + #1136, #3967
+static inicial + #1137, #3967
+static inicial + #1138, #3967
+static inicial + #1139, #3967
+static inicial + #1140, #3967
+static inicial + #1141, #3967
+static inicial + #1142, #3967
+static inicial + #1143, #3967
+static inicial + #1144, #3967
+static inicial + #1145, #3967
+static inicial + #1146, #3967
+static inicial + #1147, #3967
+static inicial + #1148, #3967
+static inicial + #1149, #3967
+static inicial + #1150, #3967
+static inicial + #1151, #3967
+static inicial + #1152, #3967
+static inicial + #1153, #3967
+static inicial + #1154, #3967
+static inicial + #1155, #3967
+static inicial + #1156, #3967
+static inicial + #1157, #3967
+static inicial + #1158, #3967
+static inicial + #1159, #3967
+
+;Linha 29
+static inicial + #1160, #3967
+static inicial + #1161, #3967
+static inicial + #1162, #3967
+static inicial + #1163, #3967
+static inicial + #1164, #3967
+static inicial + #1165, #3967
+static inicial + #1166, #3967
+static inicial + #1167, #3967
+static inicial + #1168, #3967
+static inicial + #1169, #3967
+static inicial + #1170, #3967
+static inicial + #1171, #3967
+static inicial + #1172, #3967
+static inicial + #1173, #3967
+static inicial + #1174, #3967
+static inicial + #1175, #3967
+static inicial + #1176, #3967
+static inicial + #1177, #3967
+static inicial + #1178, #3967
+static inicial + #1179, #3967
+static inicial + #1180, #3967
+static inicial + #1181, #3967
+static inicial + #1182, #3967
+static inicial + #1183, #3967
+static inicial + #1184, #3967
+static inicial + #1185, #3967
+static inicial + #1186, #3967
+static inicial + #1187, #3967
+static inicial + #1188, #3967
+static inicial + #1189, #3967
+static inicial + #1190, #3967
+static inicial + #1191, #3967
+static inicial + #1192, #3967
+static inicial + #1193, #3967
+static inicial + #1194, #3967
+static inicial + #1195, #3967
+static inicial + #1196, #3967
+static inicial + #1197, #3967
+static inicial + #1198, #3967
+static inicial + #1199, #3967
 
 fase1 : var #1200
 ;Linha 0
