@@ -2,8 +2,6 @@
 
 ⚡ A maze game made during the Computer Organization and Architecture discipline.
 
-<br>
-
 ## TODO:
 - [ ] Desenhar mapas definitivos
 - [ ] Melhor desenho do personagem
