@@ -6,7 +6,7 @@
 - [ ] Desenhar mapas definitivos
 - [ ] Melhor desenho do personagem
 - [ ] Finalizar o jogo ao chego no ponto final (criar tela de fim)
-- [ ] Adicionar novos recursos no mapa (com um caracterer "?" no mapa)
+- [ ] Adicionar novos recursos no mapa (com um caractere "?" no mapa)
     - [ ] Slow
     - [ ] Mostrar o mapa por alguns segundos
     - [ ] O boneco "morre" e volta para posição inicial 
