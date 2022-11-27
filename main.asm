@@ -24,6 +24,7 @@
 
 characterPosition: var #1
 characterLastPosition: var #1
+seed: var #1
 
 jmp main
 
@@ -33,8 +34,8 @@ main:
 	call PrintInitialScreen
 	call WaitUntilSpaceIsPressed
 	call PrintBlackScreen
-
-	loadn r0, #41
+    
+	loadn r0, #41 ;--posicao inicial
 	store characterPosition, r0	
 	
 	loadn r0, #0
@@ -44,7 +45,7 @@ main:
 		loadn r2, #30
 		mod r2, r0, r2
 		cmp r2, r1
-		ceq MoveChar    
+		ceq MoveChar 
 		
 		call Delay
 		inc r0
@@ -57,17 +58,22 @@ main:
 WaitUntilSpaceIsPressed:
 	push r0
 	push r1	
+	push r2
 	
 	loadn r0, #' '
+	loadn r2, #0
 	
 	hangLoop:
+	    inc r2
 		inchar r1
 		cmp r0, r1
 		jeq WaitUntilSpaceIsPressed_End
 		jmp hangLoop
 		
 	WaitUntilSpaceIsPressed_End:	
-		
+	store seed, r2
+	
+	pop r2	
 	pop r1
 	pop r0
 	rts	
