@@ -205,8 +205,8 @@ handleRandomEvent:
 	push r2
 	push r3
 	
-	loadn r1, #2
-	load r2, seed1 
+	loadn r1, #4
+	load r2, seed 
 	
 	mod r1, r2, r1
 	
@@ -218,12 +218,30 @@ handleRandomEvent:
 	cmp r1, r3
 	jeq handleEvent2
 	
+	loadn r3, #2
+	cmp r1, r3
+	jeq handleEvent3
+	
+	loadn r3, #3
+	cmp r1, r3
+	jeq handleEvent4
+
+	
 	handleEvent1: 
 		jmp initialSetup
 	handleEvent2: 
 		loadn r1, #200
 		store period, r1
 		jmp handleEventEnd
+	handleEvent3:
+		call printfaseScreen
+		call MediumDelay
+		call PrintBlackScreen
+		jmp Loop
+	handleEvent4:
+		call PrintBlackScreen
+		call GreaterDelay
+		jmp Loop				
 	 	
 	handleEventEnd:
 	
@@ -634,7 +652,42 @@ Delay:
 	
 	pop R1
 	pop R0
-	rts				
+	rts
+
+MediumDelay:
+	push r0
+	push r1
+	
+	loadn r1, #500  
+   GreaterDelay_volta2:				
+	loadn R0, #10000	
+   GreaterDelay_volta: 
+	dec R0					
+	jnz GreaterDelay_volta	
+	dec R1
+	jnz GreaterDelay_volta2
+	
+	pop R1
+	pop R0
+	rts 				
+	
+
+GreaterDelay:
+	push r0
+	push r1
+	
+	loadn r1, #500  
+   GreaterDelay_volta2:				
+	loadn R0, #30000	
+   GreaterDelay_volta: 
+	dec R0					
+	jnz GreaterDelay_volta	
+	dec R1
+	jnz GreaterDelay_volta2
+	
+	pop R1
+	pop R0
+	rts 				
 	
 PrintInitialScreen:
   push R0
