@@ -51,11 +51,34 @@ main:
 		rts	
 		
 	End:
-		call PrintBlackScreen
+		call printFinalScreen
 		
 	halt
 	
 ;---- Fim do Programa Principal -----
+
+WaitUntilSpaceIsPressed:
+	push r0
+	push r1	
+	push r2
+	
+	loadn r0, #' '
+	loadn r2, #0
+	
+	hangLoop:
+	    inc r2
+		inchar r1
+		cmp r0, r1
+		jeq WaitUntilSpaceIsPressed_End
+		jmp hangLoop
+		
+	WaitUntilSpaceIsPressed_End:	
+	store seed, r2
+	
+	pop r2	
+	pop r1
+	pop r0
+	rts	; espera até que o espaço seja pressionado, enquanto isso, incremmenta um contador "seed"
 
 seedMap:
 	push r0
@@ -99,30 +122,7 @@ seedMap:
     pop r2
 	pop r1
 	pop r0
-	rts
-	
-WaitUntilSpaceIsPressed:
-	push r0
-	push r1	
-	push r2
-	
-	loadn r0, #' '
-	loadn r2, #0
-	
-	hangLoop:
-	    inc r2
-		inchar r1
-		cmp r0, r1
-		jeq WaitUntilSpaceIsPressed_End
-		jmp hangLoop
-		
-	WaitUntilSpaceIsPressed_End:	
-	store seed, r2
-	
-	pop r2	
-	pop r1
-	pop r0
-	rts	
+	rts ; com base no contador "seed", seleciona um dos mapas
 	
 MoveChar: 
 	push r0
@@ -145,7 +145,7 @@ MoveChar:
 	MoverChar_End:
 	pop r1
 	pop r0
-	rts
+	rts; ; lida com toda interação de mover o char
 	
 finishIfCan:
 	push r0 
@@ -168,7 +168,7 @@ finishIfCan:
 	pop r2
 	pop r1
 	pop r0
-	rts
+	rts; finaliza o jogo se chegar na posição final
 	
 randomEventsIfCan:
 	push r0 
@@ -197,7 +197,7 @@ randomEventsIfCan:
 	pop r2
 	pop r1
 	pop r0
-	rts
+	rts; chama o handler de eventos se chegar na posição de eventos
 
 handleRandomEvent:
 	push r0
@@ -249,7 +249,7 @@ handleRandomEvent:
 	pop r2
 	pop r1
 	pop r0
-	rts
+	rts; lança um evento aleatório no mapa, com base no contador "seed1"
 
 CalcCharPosition: 
 	push r0
@@ -290,7 +290,7 @@ CalcCharPosition:
 	pop r2
 	pop r1
 	pop r0
-	rts
+	rts; ; "ouve" as teclas e calcula a nova posição
 
 CalcCharPositionUp: 
 	loadn r1, #40
@@ -346,7 +346,7 @@ ensureMoveWontCollide:
 	pop r3
 	pop r2
 	pop r1
-	rts
+	rts; evita colisões no mapa 
 
 eraseChar: 
 	push r0
@@ -365,7 +365,7 @@ eraseChar:
 	pop r2
 	pop r1
 	pop r0
-	rts
+	rts; apaga o boneco
 
 DrawChar:
 	push r0
@@ -378,9 +378,9 @@ DrawChar:
 	
 	pop r1
 	pop r2
-	rts
+	rts; desenha o boneco
 
-refreshBrightedArea: 
+refreshBrightedArea: ; faz o refresh da área visível do boneco
 	push r0
 	push r1
 	push r2
@@ -670,7 +670,6 @@ MediumDelay:
 	pop R1
 	pop R0
 	rts 				
-	
 
 GreaterDelay:
 	push r0
@@ -695,7 +694,7 @@ PrintInitialScreen:
   push R2
   push R3
 
-  loadn R0, #inicial
+  loadn R0, #Pato
   loadn R1, #0
   loadn R2, #1200
 
@@ -763,1266 +762,2553 @@ printfaseScreen:
   	pop R0
   	rts
   	
-inicial : var #1200
-;Linha 0
-static inicial + #0, #3967
-static inicial + #1, #3967
-static inicial + #2, #3967
-static inicial + #3, #3967
-static inicial + #4, #3967
-static inicial + #5, #3967
-static inicial + #6, #3967
-static inicial + #7, #3967
-static inicial + #8, #3967
-static inicial + #9, #3967
-static inicial + #10, #3967
-static inicial + #11, #3967
-static inicial + #12, #3967
-static inicial + #13, #3967
-static inicial + #14, #3967
-static inicial + #15, #3967
-static inicial + #16, #3967
-static inicial + #17, #3967
-static inicial + #18, #3967
-static inicial + #19, #3967
-static inicial + #20, #3967
-static inicial + #21, #3967
-static inicial + #22, #3967
-static inicial + #23, #3967
-static inicial + #24, #3967
-static inicial + #25, #3967
-static inicial + #26, #3967
-static inicial + #27, #3967
-static inicial + #28, #3967
-static inicial + #29, #3967
-static inicial + #30, #3967
-static inicial + #31, #3967
-static inicial + #32, #3967
-static inicial + #33, #3967
-static inicial + #34, #3967
-static inicial + #35, #3967
-static inicial + #36, #3967
-static inicial + #37, #3967
-static inicial + #38, #3967
-static inicial + #39, #3967
+printFinalScreen:
+  push R0
+  push R1
+  push R2
+  push R3
 
-;Linha 1
-static inicial + #40, #3967
-static inicial + #41, #3967
-static inicial + #42, #3967
-static inicial + #43, #3967
-static inicial + #44, #3967
-static inicial + #45, #3967
-static inicial + #46, #3967
-static inicial + #47, #3967
-static inicial + #48, #3967
-static inicial + #49, #3967
-static inicial + #50, #3967
-static inicial + #51, #3967
-static inicial + #52, #3967
-static inicial + #53, #3967
-static inicial + #54, #3967
-static inicial + #55, #3967
-static inicial + #56, #3967
-static inicial + #57, #3967
-static inicial + #58, #3967
-static inicial + #59, #3967
-static inicial + #60, #3967
-static inicial + #61, #3967
-static inicial + #62, #3967
-static inicial + #63, #3967
-static inicial + #64, #3967
-static inicial + #65, #3967
-static inicial + #66, #3967
-static inicial + #67, #3967
-static inicial + #68, #3967
-static inicial + #69, #3967
-static inicial + #70, #3967
-static inicial + #71, #3967
-static inicial + #72, #3967
-static inicial + #73, #3967
-static inicial + #74, #3967
-static inicial + #75, #3967
-static inicial + #76, #3967
-static inicial + #77, #3967
-static inicial + #78, #3967
-static inicial + #79, #3967
+  loadn R0, #Screen
+  loadn R1, #0
+  loadn R2, #1200
 
-;Linha 2
-static inicial + #80, #3967
-static inicial + #81, #3967
-static inicial + #82, #3967
-static inicial + #83, #3967
-static inicial + #84, #3967
-static inicial + #85, #3967
-static inicial + #86, #3967
-static inicial + #87, #3967
-static inicial + #88, #3967
-static inicial + #89, #3967
-static inicial + #90, #3967
-static inicial + #91, #3967
-static inicial + #92, #3967
-static inicial + #93, #3967
-static inicial + #94, #3967
-static inicial + #95, #3967
-static inicial + #96, #3967
-static inicial + #97, #3967
-static inicial + #98, #3967
-static inicial + #99, #3967
-static inicial + #100, #3967
-static inicial + #101, #3967
-static inicial + #102, #3967
-static inicial + #103, #3967
-static inicial + #104, #3967
-static inicial + #105, #3967
-static inicial + #106, #3967
-static inicial + #107, #3967
-static inicial + #108, #3967
-static inicial + #109, #3967
-static inicial + #110, #3967
-static inicial + #111, #3967
-static inicial + #112, #3967
-static inicial + #113, #3967
-static inicial + #114, #3967
-static inicial + #115, #3967
-static inicial + #116, #3967
-static inicial + #117, #3967
-static inicial + #118, #3967
-static inicial + #119, #3967
+  printFinalScreenLoop:
 
-;Linha 3
-static inicial + #120, #3967
-static inicial + #121, #3967
-static inicial + #122, #3967
-static inicial + #123, #3967
-static inicial + #124, #3967
-static inicial + #125, #3967
-static inicial + #126, #3967
-static inicial + #127, #3967
-static inicial + #128, #3967
-static inicial + #129, #3967
-static inicial + #130, #3967
-static inicial + #131, #3967
-static inicial + #132, #3967
-static inicial + #133, #3967
-static inicial + #134, #3967
-static inicial + #135, #3967
-static inicial + #136, #3967
-static inicial + #137, #3967
-static inicial + #138, #3967
-static inicial + #139, #3967
-static inicial + #140, #3967
-static inicial + #141, #3967
-static inicial + #142, #3967
-static inicial + #143, #3967
-static inicial + #144, #3967
-static inicial + #145, #3967
-static inicial + #146, #3967
-static inicial + #147, #3967
-static inicial + #148, #3967
-static inicial + #149, #3967
-static inicial + #150, #3967
-static inicial + #151, #3967
-static inicial + #152, #3967
-static inicial + #153, #3967
-static inicial + #154, #3967
-static inicial + #155, #3967
-static inicial + #156, #3967
-static inicial + #157, #3967
-static inicial + #158, #3967
-static inicial + #159, #3967
+    add R3,R0,R1
+    loadi R3, R3
+    outchar R3, R1
+    inc R1
+    cmp R1, R2
 
-;Linha 4
-static inicial + #160, #3967
-static inicial + #161, #3967
-static inicial + #162, #3967
-static inicial + #163, #3967
-static inicial + #164, #3967
-static inicial + #165, #3967
-static inicial + #166, #3967
-static inicial + #167, #3967
-static inicial + #168, #3967
-static inicial + #169, #3967
-static inicial + #170, #3967
-static inicial + #171, #3967
-static inicial + #172, #3967
-static inicial + #173, #3967
-static inicial + #174, #3967
-static inicial + #175, #3967
-static inicial + #176, #3967
-static inicial + #177, #3967
-static inicial + #178, #3967
-static inicial + #179, #3967
-static inicial + #180, #3967
-static inicial + #181, #3967
-static inicial + #182, #3967
-static inicial + #183, #3967
-static inicial + #184, #3967
-static inicial + #185, #3967
-static inicial + #186, #3967
-static inicial + #187, #3967
-static inicial + #188, #3967
-static inicial + #189, #3967
-static inicial + #190, #3967
-static inicial + #191, #3967
-static inicial + #192, #3967
-static inicial + #193, #3967
-static inicial + #194, #3967
-static inicial + #195, #3967
-static inicial + #196, #3967
-static inicial + #197, #3967
-static inicial + #198, #3967
-static inicial + #199, #3967
+    jne printFinalScreenLoop
 
-;Linha 5
-static inicial + #200, #3967
-static inicial + #201, #3967
-static inicial + #202, #3967
-static inicial + #203, #3967
-static inicial + #204, #3967
-static inicial + #205, #3967
-static inicial + #206, #3967
-static inicial + #207, #3967
-static inicial + #208, #3967
-static inicial + #209, #3967
-static inicial + #210, #3967
-static inicial + #211, #3967
-static inicial + #212, #3967
-static inicial + #213, #3967
-static inicial + #214, #3967
-static inicial + #215, #3967
-static inicial + #216, #3967
-static inicial + #217, #3967
-static inicial + #218, #3967
-static inicial + #219, #3967
-static inicial + #220, #3967
-static inicial + #221, #3967
-static inicial + #222, #3967
-static inicial + #223, #3967
-static inicial + #224, #3967
-static inicial + #225, #3967
-static inicial + #226, #3967
-static inicial + #227, #3967
-static inicial + #228, #3967
-static inicial + #229, #3967
-static inicial + #230, #3967
-static inicial + #231, #3967
-static inicial + #232, #3967
-static inicial + #233, #3967
-static inicial + #234, #3967
-static inicial + #235, #3967
-static inicial + #236, #3967
-static inicial + #237, #3967
-static inicial + #238, #3967
-static inicial + #239, #3967
+  pop R3
+  pop R2
+  pop R1
+  pop R0
+  rts
+  	
+Pato : var #1200
+  ;Linha 0
+  static Pato + #0, #3967
+  static Pato + #1, #3967
+  static Pato + #2, #3967
+  static Pato + #3, #3967
+  static Pato + #4, #3967
+  static Pato + #5, #3967
+  static Pato + #6, #3967
+  static Pato + #7, #3967
+  static Pato + #8, #3967
+  static Pato + #9, #3967
+  static Pato + #10, #3967
+  static Pato + #11, #3
+  static Pato + #12, #3
+  static Pato + #13, #3
+  static Pato + #14, #3
+  static Pato + #15, #3
+  static Pato + #16, #3
+  static Pato + #17, #3
+  static Pato + #18, #3
+  static Pato + #19, #3
+  static Pato + #20, #3
+  static Pato + #21, #3967
+  static Pato + #22, #2816
+  static Pato + #23, #2816
+  static Pato + #24, #2816
+  static Pato + #25, #2816
+  static Pato + #26, #2816
+  static Pato + #27, #2816
+  static Pato + #28, #2816
+  static Pato + #29, #2816
+  static Pato + #30, #2816
+  static Pato + #31, #2816
+  static Pato + #32, #2816
+  static Pato + #33, #2816
+  static Pato + #34, #3967
+  static Pato + #35, #3967
+  static Pato + #36, #3967
+  static Pato + #37, #3967
+  static Pato + #38, #3967
+  static Pato + #39, #3967
 
-;Linha 6
-static inicial + #240, #3967
-static inicial + #241, #3967
-static inicial + #242, #3967
-static inicial + #243, #3967
-static inicial + #244, #3967
-static inicial + #245, #3967
-static inicial + #246, #3967
-static inicial + #247, #3967
-static inicial + #248, #3967
-static inicial + #249, #3967
-static inicial + #250, #3967
-static inicial + #251, #3967
-static inicial + #252, #3967
-static inicial + #253, #3967
-static inicial + #254, #3967
-static inicial + #255, #3967
-static inicial + #256, #3967
-static inicial + #257, #3967
-static inicial + #258, #3967
-static inicial + #259, #3967
-static inicial + #260, #3967
-static inicial + #261, #3967
-static inicial + #262, #3967
-static inicial + #263, #3967
-static inicial + #264, #3967
-static inicial + #265, #3967
-static inicial + #266, #3967
-static inicial + #267, #3967
-static inicial + #268, #3967
-static inicial + #269, #3967
-static inicial + #270, #3967
-static inicial + #271, #3967
-static inicial + #272, #3967
-static inicial + #273, #3967
-static inicial + #274, #3967
-static inicial + #275, #3967
-static inicial + #276, #3967
-static inicial + #277, #3967
-static inicial + #278, #3967
-static inicial + #279, #3967
+  ;Linha 1
+  static Pato + #40, #3967
+  static Pato + #41, #3
+  static Pato + #42, #3
+  static Pato + #43, #3
+  static Pato + #44, #3
+  static Pato + #45, #3
+  static Pato + #46, #3
+  static Pato + #47, #3
+  static Pato + #48, #3
+  static Pato + #49, #3
+  static Pato + #50, #3
+  static Pato + #51, #3
+  static Pato + #52, #127
+  static Pato + #53, #127
+  static Pato + #54, #127
+  static Pato + #55, #127
+  static Pato + #56, #3967
+  static Pato + #57, #3967
+  static Pato + #58, #3
+  static Pato + #59, #3967
+  static Pato + #60, #3967
+  static Pato + #61, #3
+  static Pato + #62, #2816
+  static Pato + #63, #2816
+  static Pato + #64, #2816
+  static Pato + #65, #2816
+  static Pato + #66, #2816
+  static Pato + #67, #2816
+  static Pato + #68, #2816
+  static Pato + #69, #2816
+  static Pato + #70, #2816
+  static Pato + #71, #2816
+  static Pato + #72, #2816
+  static Pato + #73, #2816
+  static Pato + #74, #3967
+  static Pato + #75, #3967
+  static Pato + #76, #3967
+  static Pato + #77, #3967
+  static Pato + #78, #3967
+  static Pato + #79, #3967
 
-;Linha 7
-static inicial + #280, #3967
-static inicial + #281, #3967
-static inicial + #282, #3967
-static inicial + #283, #0
-static inicial + #284, #0
-static inicial + #285, #0
-static inicial + #286, #0
-static inicial + #287, #0
-static inicial + #288, #0
-static inicial + #289, #0
-static inicial + #290, #0
-static inicial + #291, #0
-static inicial + #292, #3967
-static inicial + #293, #3967
-static inicial + #294, #3967
-static inicial + #295, #3967
-static inicial + #296, #3967
-static inicial + #297, #3967
-static inicial + #298, #3967
-static inicial + #299, #3967
-static inicial + #300, #3967
-static inicial + #301, #3967
-static inicial + #302, #3967
-static inicial + #303, #3967
-static inicial + #304, #3967
-static inicial + #305, #3967
-static inicial + #306, #3967
-static inicial + #307, #3967
-static inicial + #308, #3967
-static inicial + #309, #3967
-static inicial + #310, #3967
-static inicial + #311, #3967
-static inicial + #312, #3967
-static inicial + #313, #3967
-static inicial + #314, #3967
-static inicial + #315, #3967
-static inicial + #316, #3967
-static inicial + #317, #3967
-static inicial + #318, #3967
-static inicial + #319, #3967
+  ;Linha 2
+  static Pato + #80, #3967
+  static Pato + #81, #3967
+  static Pato + #82, #3967
+  static Pato + #83, #3967
+  static Pato + #84, #3967
+  static Pato + #85, #3967
+  static Pato + #86, #3
+  static Pato + #87, #3
+  static Pato + #88, #3
+  static Pato + #89, #3
+  static Pato + #90, #3967
+  static Pato + #91, #3
+  static Pato + #92, #3
+  static Pato + #93, #3
+  static Pato + #94, #3
+  static Pato + #95, #3967
+  static Pato + #96, #3967
+  static Pato + #97, #3967
+  static Pato + #98, #3
+  static Pato + #99, #3967
+  static Pato + #100, #3967
+  static Pato + #101, #3967
+  static Pato + #102, #2816
+  static Pato + #103, #2816
+  static Pato + #104, #2816
+  static Pato + #105, #2816
+  static Pato + #106, #2816
+  static Pato + #107, #2816
+  static Pato + #108, #2816
+  static Pato + #109, #2816
+  static Pato + #110, #2816
+  static Pato + #111, #2816
+  static Pato + #112, #2816
+  static Pato + #113, #2816
+  static Pato + #114, #3967
+  static Pato + #115, #3967
+  static Pato + #116, #3967
+  static Pato + #117, #3967
+  static Pato + #118, #3967
+  static Pato + #119, #3967
 
-;Linha 8
-static inicial + #320, #3967
-static inicial + #321, #3967
-static inicial + #322, #3967
-static inicial + #323, #0
-static inicial + #324, #3967
-static inicial + #325, #3967
-static inicial + #326, #3967
-static inicial + #327, #3967
-static inicial + #328, #3967
-static inicial + #329, #3967
-static inicial + #330, #3967
-static inicial + #331, #3967
-static inicial + #332, #3967
-static inicial + #333, #3967
-static inicial + #334, #3967
-static inicial + #335, #3967
-static inicial + #336, #3967
-static inicial + #337, #3967
-static inicial + #338, #3967
-static inicial + #339, #3967
-static inicial + #340, #3967
-static inicial + #341, #3967
-static inicial + #342, #3967
-static inicial + #343, #3967
-static inicial + #344, #3967
-static inicial + #345, #3967
-static inicial + #346, #3967
-static inicial + #347, #3967
-static inicial + #348, #3967
-static inicial + #349, #3967
-static inicial + #350, #3967
-static inicial + #351, #3967
-static inicial + #352, #3967
-static inicial + #353, #3967
-static inicial + #354, #3967
-static inicial + #355, #3967
-static inicial + #356, #3967
-static inicial + #357, #3967
-static inicial + #358, #3967
-static inicial + #359, #3967
+  ;Linha 3
+  static Pato + #120, #3967
+  static Pato + #121, #3967
+  static Pato + #122, #3967
+  static Pato + #123, #3967
+  static Pato + #124, #3967
+  static Pato + #125, #3967
+  static Pato + #126, #3
+  static Pato + #127, #3
+  static Pato + #128, #3
+  static Pato + #129, #3
+  static Pato + #130, #3
+  static Pato + #131, #3
+  static Pato + #132, #3
+  static Pato + #133, #3
+  static Pato + #134, #3
+  static Pato + #135, #3
+  static Pato + #136, #3
+  static Pato + #137, #3
+  static Pato + #138, #3
+  static Pato + #139, #3
+  static Pato + #140, #3
+  static Pato + #141, #3967
+  static Pato + #142, #2816
+  static Pato + #143, #2816
+  static Pato + #144, #2816
+  static Pato + #145, #2816
+  static Pato + #146, #2816
+  static Pato + #147, #2816
+  static Pato + #148, #3
+  static Pato + #149, #3
+  static Pato + #150, #2816
+  static Pato + #151, #2816
+  static Pato + #152, #2816
+  static Pato + #153, #2816
+  static Pato + #154, #2819
+  static Pato + #155, #3967
+  static Pato + #156, #3967
+  static Pato + #157, #3967
+  static Pato + #158, #3967
+  static Pato + #159, #3967
 
-;Linha 9
-static inicial + #360, #3967
-static inicial + #361, #3967
-static inicial + #362, #3967
-static inicial + #363, #0
-static inicial + #364, #3967
-static inicial + #365, #3967
-static inicial + #366, #3967
-static inicial + #367, #3967
-static inicial + #368, #3967
-static inicial + #369, #3967
-static inicial + #370, #3967
-static inicial + #371, #3967
-static inicial + #372, #3967
-static inicial + #373, #3967
-static inicial + #374, #3967
-static inicial + #375, #3967
-static inicial + #376, #3967
-static inicial + #377, #3967
-static inicial + #378, #3967
-static inicial + #379, #3967
-static inicial + #380, #3967
-static inicial + #381, #3967
-static inicial + #382, #3967
-static inicial + #383, #3967
-static inicial + #384, #3967
-static inicial + #385, #3967
-static inicial + #386, #3967
-static inicial + #387, #3967
-static inicial + #388, #3967
-static inicial + #389, #3967
-static inicial + #390, #3967
-static inicial + #391, #3967
-static inicial + #392, #3967
-static inicial + #393, #3967
-static inicial + #394, #3967
-static inicial + #395, #3967
-static inicial + #396, #3967
-static inicial + #397, #3967
-static inicial + #398, #3967
-static inicial + #399, #3967
+  ;Linha 4
+  static Pato + #160, #3967
+  static Pato + #161, #3967
+  static Pato + #162, #3967
+  static Pato + #163, #3967
+  static Pato + #164, #3967
+  static Pato + #165, #3967
+  static Pato + #166, #3
+  static Pato + #167, #3
+  static Pato + #168, #1792
+  static Pato + #169, #1792
+  static Pato + #170, #1792
+  static Pato + #171, #1792
+  static Pato + #172, #1792
+  static Pato + #173, #1792
+  static Pato + #174, #1792
+  static Pato + #175, #1792
+  static Pato + #176, #1792
+  static Pato + #177, #1792
+  static Pato + #178, #3
+  static Pato + #179, #3
+  static Pato + #180, #3967
+  static Pato + #181, #3967
+  static Pato + #182, #2816
+  static Pato + #183, #2816
+  static Pato + #184, #2816
+  static Pato + #185, #2816
+  static Pato + #186, #2816
+  static Pato + #187, #2816
+  static Pato + #188, #3
+  static Pato + #189, #3
+  static Pato + #190, #2816
+  static Pato + #191, #2816
+  static Pato + #192, #2816
+  static Pato + #193, #2816
+  static Pato + #194, #2560
+  static Pato + #195, #2560
+  static Pato + #196, #2560
+  static Pato + #197, #2560
+  static Pato + #198, #2560
+  static Pato + #199, #2560
 
-;Linha 10
-static inicial + #400, #3967
-static inicial + #401, #3967
-static inicial + #402, #3967
-static inicial + #403, #0
-static inicial + #404, #3967
-static inicial + #405, #3967
-static inicial + #406, #3967
-static inicial + #407, #3967
-static inicial + #408, #3967
-static inicial + #409, #3967
-static inicial + #410, #3967
-static inicial + #411, #3967
-static inicial + #412, #3967
-static inicial + #413, #3967
-static inicial + #414, #3967
-static inicial + #415, #3967
-static inicial + #416, #3967
-static inicial + #417, #3967
-static inicial + #418, #3967
-static inicial + #419, #3967
-static inicial + #420, #3967
-static inicial + #421, #3967
-static inicial + #422, #3967
-static inicial + #423, #3967
-static inicial + #424, #3967
-static inicial + #425, #3967
-static inicial + #426, #3967
-static inicial + #427, #3967
-static inicial + #428, #3967
-static inicial + #429, #3967
-static inicial + #430, #3967
-static inicial + #431, #3967
-static inicial + #432, #3967
-static inicial + #433, #3967
-static inicial + #434, #3967
-static inicial + #435, #3967
-static inicial + #436, #3967
-static inicial + #437, #3967
-static inicial + #438, #3967
-static inicial + #439, #3967
+  ;Linha 5
+  static Pato + #200, #3
+  static Pato + #201, #3
+  static Pato + #202, #3
+  static Pato + #203, #3
+  static Pato + #204, #3
+  static Pato + #205, #3
+  static Pato + #206, #3
+  static Pato + #207, #3
+  static Pato + #208, #3967
+  static Pato + #209, #3
+  static Pato + #210, #3967
+  static Pato + #211, #3840
+  static Pato + #212, #3
+  static Pato + #213, #3967
+  static Pato + #214, #3967
+  static Pato + #215, #3967
+  static Pato + #216, #3967
+  static Pato + #217, #3
+  static Pato + #218, #3
+  static Pato + #219, #3967
+  static Pato + #220, #3967
+  static Pato + #221, #3967
+  static Pato + #222, #2816
+  static Pato + #223, #2816
+  static Pato + #224, #2816
+  static Pato + #225, #2816
+  static Pato + #226, #2816
+  static Pato + #227, #2816
+  static Pato + #228, #2816
+  static Pato + #229, #2816
+  static Pato + #230, #2816
+  static Pato + #231, #2816
+  static Pato + #232, #2816
+  static Pato + #233, #2816
+  static Pato + #234, #2560
+  static Pato + #235, #2560
+  static Pato + #236, #2560
+  static Pato + #237, #2560
+  static Pato + #238, #2560
+  static Pato + #239, #2560
 
-;Linha 11
-static inicial + #440, #3967
-static inicial + #441, #3967
-static inicial + #442, #3967
-static inicial + #443, #0
-static inicial + #444, #3967
-static inicial + #445, #3967
-static inicial + #446, #3967
-static inicial + #447, #3967
-static inicial + #448, #3967
-static inicial + #449, #3967
-static inicial + #450, #3967
-static inicial + #451, #3967
-static inicial + #452, #3967
-static inicial + #453, #3967
-static inicial + #454, #3967
-static inicial + #455, #3967
-static inicial + #456, #3967
-static inicial + #457, #3967
-static inicial + #458, #3967
-static inicial + #459, #3967
-static inicial + #460, #3967
-static inicial + #461, #3967
-static inicial + #462, #3967
-static inicial + #463, #3967
-static inicial + #464, #3967
-static inicial + #465, #3967
-static inicial + #466, #3967
-static inicial + #467, #3967
-static inicial + #468, #3967
-static inicial + #469, #3967
-static inicial + #470, #3967
-static inicial + #471, #3967
-static inicial + #472, #3967
-static inicial + #473, #3967
-static inicial + #474, #3967
-static inicial + #475, #3967
-static inicial + #476, #3967
-static inicial + #477, #3967
-static inicial + #478, #3967
-static inicial + #479, #3967
+  ;Linha 6
+  static Pato + #240, #3
+  static Pato + #241, #3967
+  static Pato + #242, #3967
+  static Pato + #243, #3967
+  static Pato + #244, #3967
+  static Pato + #245, #3967
+  static Pato + #246, #3
+  static Pato + #247, #3
+  static Pato + #248, #3
+  static Pato + #249, #3
+  static Pato + #250, #3967
+  static Pato + #251, #3967
+  static Pato + #252, #3967
+  static Pato + #253, #3967
+  static Pato + #254, #3967
+  static Pato + #255, #3967
+  static Pato + #256, #3
+  static Pato + #257, #3
+  static Pato + #258, #3
+  static Pato + #259, #3
+  static Pato + #260, #3
+  static Pato + #261, #3
+  static Pato + #262, #2816
+  static Pato + #263, #2816
+  static Pato + #264, #2816
+  static Pato + #265, #2816
+  static Pato + #266, #2816
+  static Pato + #267, #2816
+  static Pato + #268, #2816
+  static Pato + #269, #2816
+  static Pato + #270, #2816
+  static Pato + #271, #2816
+  static Pato + #272, #2816
+  static Pato + #273, #2816
+  static Pato + #274, #2560
+  static Pato + #275, #2560
+  static Pato + #276, #2560
+  static Pato + #277, #2560
+  static Pato + #278, #2560
+  static Pato + #279, #2560
 
-;Linha 12
-static inicial + #480, #3967
-static inicial + #481, #3967
-static inicial + #482, #3967
-static inicial + #483, #0
-static inicial + #484, #0
-static inicial + #485, #0
-static inicial + #486, #0
-static inicial + #487, #0
-static inicial + #488, #0
-static inicial + #489, #0
-static inicial + #490, #0
-static inicial + #491, #0
-static inicial + #492, #3967
-static inicial + #493, #0
-static inicial + #494, #0
-static inicial + #495, #0
-static inicial + #496, #0
-static inicial + #497, #0
-static inicial + #498, #3967
-static inicial + #499, #3967
-static inicial + #500, #3967
-static inicial + #501, #0
-static inicial + #502, #0
-static inicial + #503, #0
-static inicial + #504, #3967
-static inicial + #505, #3967
-static inicial + #506, #3967
-static inicial + #507, #3967
-static inicial + #508, #0
-static inicial + #509, #0
-static inicial + #510, #0
-static inicial + #511, #0
-static inicial + #512, #3967
-static inicial + #513, #0
-static inicial + #514, #0
-static inicial + #515, #0
-static inicial + #516, #0
-static inicial + #517, #3967
-static inicial + #518, #3967
-static inicial + #519, #3967
+  ;Linha 7
+  static Pato + #280, #3
+  static Pato + #281, #3
+  static Pato + #282, #3
+  static Pato + #283, #3967
+  static Pato + #284, #3
+  static Pato + #285, #3
+  static Pato + #286, #3
+  static Pato + #287, #3
+  static Pato + #288, #3967
+  static Pato + #289, #3967
+  static Pato + #290, #3967
+  static Pato + #291, #3967
+  static Pato + #292, #3967
+  static Pato + #293, #3967
+  static Pato + #294, #3967
+  static Pato + #295, #3967
+  static Pato + #296, #3
+  static Pato + #297, #3967
+  static Pato + #298, #3967
+  static Pato + #299, #2816
+  static Pato + #300, #2816
+  static Pato + #301, #2816
+  static Pato + #302, #2816
+  static Pato + #303, #2816
+  static Pato + #304, #2816
+  static Pato + #305, #2816
+  static Pato + #306, #2816
+  static Pato + #307, #2816
+  static Pato + #308, #2816
+  static Pato + #309, #2816
+  static Pato + #310, #2816
+  static Pato + #311, #2816
+  static Pato + #312, #2816
+  static Pato + #313, #2816
+  static Pato + #314, #2560
+  static Pato + #315, #2560
+  static Pato + #316, #2560
+  static Pato + #317, #2560
+  static Pato + #318, #2560
+  static Pato + #319, #2560
 
-;Linha 13
-static inicial + #520, #3967
-static inicial + #521, #3967
-static inicial + #522, #3967
-static inicial + #523, #3967
-static inicial + #524, #3967
-static inicial + #525, #3967
-static inicial + #526, #3967
-static inicial + #527, #3967
-static inicial + #528, #3967
-static inicial + #529, #3967
-static inicial + #530, #3967
-static inicial + #531, #0
-static inicial + #532, #3967
-static inicial + #533, #0
-static inicial + #534, #3967
-static inicial + #535, #3967
-static inicial + #536, #3967
-static inicial + #537, #0
-static inicial + #538, #3967
-static inicial + #539, #3967
-static inicial + #540, #3967
-static inicial + #541, #0
-static inicial + #542, #3967
-static inicial + #543, #0
-static inicial + #544, #3967
-static inicial + #545, #3967
-static inicial + #546, #3967
-static inicial + #547, #3967
-static inicial + #548, #0
-static inicial + #549, #3967
-static inicial + #550, #3967
-static inicial + #551, #3967
-static inicial + #552, #3967
-static inicial + #553, #0
-static inicial + #554, #3967
-static inicial + #555, #3967
-static inicial + #556, #3967
-static inicial + #557, #3967
-static inicial + #558, #3967
-static inicial + #559, #3967
+  ;Linha 8
+  static Pato + #320, #3
+  static Pato + #321, #3967
+  static Pato + #322, #1792
+  static Pato + #323, #1792
+  static Pato + #324, #1792
+  static Pato + #325, #1792
+  static Pato + #326, #1792
+  static Pato + #327, #1792
+  static Pato + #328, #1792
+  static Pato + #329, #3967
+  static Pato + #330, #3967
+  static Pato + #331, #3967
+  static Pato + #332, #3967
+  static Pato + #333, #2816
+  static Pato + #334, #2816
+  static Pato + #335, #2816
+  static Pato + #336, #2816
+  static Pato + #337, #2816
+  static Pato + #338, #2816
+  static Pato + #339, #2816
+  static Pato + #340, #2816
+  static Pato + #341, #2816
+  static Pato + #342, #2816
+  static Pato + #343, #2816
+  static Pato + #344, #2816
+  static Pato + #345, #2816
+  static Pato + #346, #2816
+  static Pato + #347, #2816
+  static Pato + #348, #2816
+  static Pato + #349, #2816
+  static Pato + #350, #2816
+  static Pato + #351, #2816
+  static Pato + #352, #2816
+  static Pato + #353, #2816
+  static Pato + #354, #3967
+  static Pato + #355, #3967
+  static Pato + #356, #3967
+  static Pato + #357, #3967
+  static Pato + #358, #3967
+  static Pato + #359, #3967
 
-;Linha 14
-static inicial + #560, #3967
-static inicial + #561, #3967
-static inicial + #562, #3967
-static inicial + #563, #3967
-static inicial + #564, #3967
-static inicial + #565, #3967
-static inicial + #566, #3967
-static inicial + #567, #3967
-static inicial + #568, #3967
-static inicial + #569, #3967
-static inicial + #570, #3967
-static inicial + #571, #0
-static inicial + #572, #3967
-static inicial + #573, #0
-static inicial + #574, #3967
-static inicial + #575, #3967
-static inicial + #576, #3967
-static inicial + #577, #0
-static inicial + #578, #3967
-static inicial + #579, #3967
-static inicial + #580, #3967
-static inicial + #581, #0
-static inicial + #582, #3967
-static inicial + #583, #0
-static inicial + #584, #3967
-static inicial + #585, #3967
-static inicial + #586, #3967
-static inicial + #587, #0
-static inicial + #588, #0
-static inicial + #589, #3967
-static inicial + #590, #3967
-static inicial + #591, #3967
-static inicial + #592, #3967
-static inicial + #593, #0
-static inicial + #594, #3967
-static inicial + #595, #3967
-static inicial + #596, #3967
-static inicial + #597, #3967
-static inicial + #598, #3967
-static inicial + #599, #3967
+  ;Linha 9
+  static Pato + #360, #3967
+  static Pato + #361, #3967
+  static Pato + #362, #3
+  static Pato + #363, #3
+  static Pato + #364, #3
+  static Pato + #365, #3
+  static Pato + #366, #3
+  static Pato + #367, #3967
+  static Pato + #368, #3967
+  static Pato + #369, #3967
+  static Pato + #370, #3967
+  static Pato + #371, #3967
+  static Pato + #372, #3967
+  static Pato + #373, #2816
+  static Pato + #374, #2816
+  static Pato + #375, #2816
+  static Pato + #376, #2816
+  static Pato + #377, #2816
+  static Pato + #378, #2816
+  static Pato + #379, #2816
+  static Pato + #380, #2816
+  static Pato + #381, #2816
+  static Pato + #382, #2816
+  static Pato + #383, #2816
+  static Pato + #384, #2816
+  static Pato + #385, #2816
+  static Pato + #386, #2816
+  static Pato + #387, #2816
+  static Pato + #388, #2816
+  static Pato + #389, #2816
+  static Pato + #390, #2816
+  static Pato + #391, #2816
+  static Pato + #392, #2816
+  static Pato + #393, #2816
+  static Pato + #394, #3967
+  static Pato + #395, #3967
+  static Pato + #396, #3967
+  static Pato + #397, #3967
+  static Pato + #398, #3967
+  static Pato + #399, #3967
 
-;Linha 15
-static inicial + #600, #3967
-static inicial + #601, #3967
-static inicial + #602, #3967
-static inicial + #603, #3967
-static inicial + #604, #3967
-static inicial + #605, #3967
-static inicial + #606, #3967
-static inicial + #607, #3967
-static inicial + #608, #3967
-static inicial + #609, #3967
-static inicial + #610, #3967
-static inicial + #611, #0
-static inicial + #612, #3967
-static inicial + #613, #0
-static inicial + #614, #3967
-static inicial + #615, #3967
-static inicial + #616, #3967
-static inicial + #617, #0
-static inicial + #618, #3967
-static inicial + #619, #3967
-static inicial + #620, #0
-static inicial + #621, #3967
-static inicial + #622, #3967
-static inicial + #623, #3967
-static inicial + #624, #0
-static inicial + #625, #3967
-static inicial + #626, #3967
-static inicial + #627, #0
-static inicial + #628, #3967
-static inicial + #629, #3967
-static inicial + #630, #3967
-static inicial + #631, #3967
-static inicial + #632, #3967
-static inicial + #633, #0
-static inicial + #634, #3967
-static inicial + #635, #3967
-static inicial + #636, #3967
-static inicial + #637, #3967
-static inicial + #638, #3967
-static inicial + #639, #3967
+  ;Linha 10
+  static Pato + #400, #3967
+  static Pato + #401, #3967
+  static Pato + #402, #3
+  static Pato + #403, #3
+  static Pato + #404, #3
+  static Pato + #405, #3
+  static Pato + #406, #3
+  static Pato + #407, #3840
+  static Pato + #408, #2816
+  static Pato + #409, #2816
+  static Pato + #410, #2816
+  static Pato + #411, #2816
+  static Pato + #412, #2816
+  static Pato + #413, #2816
+  static Pato + #414, #2816
+  static Pato + #415, #2816
+  static Pato + #416, #2816
+  static Pato + #417, #2816
+  static Pato + #418, #2816
+  static Pato + #419, #2816
+  static Pato + #420, #2816
+  static Pato + #421, #2816
+  static Pato + #422, #2816
+  static Pato + #423, #2816
+  static Pato + #424, #2816
+  static Pato + #425, #2816
+  static Pato + #426, #2816
+  static Pato + #427, #2816
+  static Pato + #428, #2816
+  static Pato + #429, #2816
+  static Pato + #430, #2816
+  static Pato + #431, #2816
+  static Pato + #432, #2816
+  static Pato + #433, #2816
+  static Pato + #434, #3
+  static Pato + #435, #3967
+  static Pato + #436, #3967
+  static Pato + #437, #3967
+  static Pato + #438, #3967
+  static Pato + #439, #3967
 
-;Linha 16
-static inicial + #640, #3967
-static inicial + #641, #3967
-static inicial + #642, #3967
-static inicial + #643, #3967
-static inicial + #644, #3967
-static inicial + #645, #3967
-static inicial + #646, #3967
-static inicial + #647, #3967
-static inicial + #648, #3967
-static inicial + #649, #3967
-static inicial + #650, #3967
-static inicial + #651, #0
-static inicial + #652, #3967
-static inicial + #653, #0
-static inicial + #654, #3967
-static inicial + #655, #3967
-static inicial + #656, #3967
-static inicial + #657, #0
-static inicial + #658, #3967
-static inicial + #659, #3967
-static inicial + #660, #0
-static inicial + #661, #3967
-static inicial + #662, #3967
-static inicial + #663, #3967
-static inicial + #664, #0
-static inicial + #665, #3967
-static inicial + #666, #3967
-static inicial + #667, #0
-static inicial + #668, #3967
-static inicial + #669, #3967
-static inicial + #670, #3967
-static inicial + #671, #3967
-static inicial + #672, #3967
-static inicial + #673, #0
-static inicial + #674, #3967
-static inicial + #675, #3967
-static inicial + #676, #3967
-static inicial + #677, #3967
-static inicial + #678, #3967
-static inicial + #679, #3967
+  ;Linha 11
+  static Pato + #440, #3967
+  static Pato + #441, #3967
+  static Pato + #442, #3
+  static Pato + #443, #3
+  static Pato + #444, #3
+  static Pato + #445, #3
+  static Pato + #446, #3
+  static Pato + #447, #3967
+  static Pato + #448, #2816
+  static Pato + #449, #2816
+  static Pato + #450, #2816
+  static Pato + #451, #2816
+  static Pato + #452, #2816
+  static Pato + #453, #2816
+  static Pato + #454, #2816
+  static Pato + #455, #2816
+  static Pato + #456, #2816
+  static Pato + #457, #2816
+  static Pato + #458, #2816
+  static Pato + #459, #2816
+  static Pato + #460, #2816
+  static Pato + #461, #2816
+  static Pato + #462, #2816
+  static Pato + #463, #2816
+  static Pato + #464, #2816
+  static Pato + #465, #2816
+  static Pato + #466, #2816
+  static Pato + #467, #2816
+  static Pato + #468, #2816
+  static Pato + #469, #2816
+  static Pato + #470, #2816
+  static Pato + #471, #2816
+  static Pato + #472, #2816
+  static Pato + #473, #2816
+  static Pato + #474, #3
+  static Pato + #475, #3
+  static Pato + #476, #3967
+  static Pato + #477, #3967
+  static Pato + #478, #3967
+  static Pato + #479, #3967
 
-;Linha 17
-static inicial + #680, #3967
-static inicial + #681, #3967
-static inicial + #682, #3967
-static inicial + #683, #3967
-static inicial + #684, #3967
-static inicial + #685, #3967
-static inicial + #686, #3967
-static inicial + #687, #3967
-static inicial + #688, #3967
-static inicial + #689, #3967
-static inicial + #690, #3967
-static inicial + #691, #0
-static inicial + #692, #3967
-static inicial + #693, #0
-static inicial + #694, #0
-static inicial + #695, #0
-static inicial + #696, #0
-static inicial + #697, #0
-static inicial + #698, #3967
-static inicial + #699, #3967
-static inicial + #700, #0
-static inicial + #701, #3967
-static inicial + #702, #3967
-static inicial + #703, #3967
-static inicial + #704, #0
-static inicial + #705, #3967
-static inicial + #706, #3967
-static inicial + #707, #0
-static inicial + #708, #3967
-static inicial + #709, #3967
-static inicial + #710, #3967
-static inicial + #711, #3967
-static inicial + #712, #3967
-static inicial + #713, #0
-static inicial + #714, #0
-static inicial + #715, #0
-static inicial + #716, #0
-static inicial + #717, #3967
-static inicial + #718, #3967
-static inicial + #719, #3967
+  ;Linha 12
+  static Pato + #480, #3967
+  static Pato + #481, #3967
+  static Pato + #482, #3967
+  static Pato + #483, #3
+  static Pato + #484, #3
+  static Pato + #485, #3967
+  static Pato + #486, #3967
+  static Pato + #487, #3
+  static Pato + #488, #3967
+  static Pato + #489, #2816
+  static Pato + #490, #2816
+  static Pato + #491, #2816
+  static Pato + #492, #2816
+  static Pato + #493, #2816
+  static Pato + #494, #2816
+  static Pato + #495, #2816
+  static Pato + #496, #2816
+  static Pato + #497, #2816
+  static Pato + #498, #2816
+  static Pato + #499, #2816
+  static Pato + #500, #2816
+  static Pato + #501, #2816
+  static Pato + #502, #2816
+  static Pato + #503, #2816
+  static Pato + #504, #2816
+  static Pato + #505, #2816
+  static Pato + #506, #2816
+  static Pato + #507, #2816
+  static Pato + #508, #2816
+  static Pato + #509, #2816
+  static Pato + #510, #2816
+  static Pato + #511, #2816
+  static Pato + #512, #2816
+  static Pato + #513, #2816
+  static Pato + #514, #3967
+  static Pato + #515, #3
+  static Pato + #516, #3967
+  static Pato + #517, #3967
+  static Pato + #518, #3967
+  static Pato + #519, #3967
 
-;Linha 18
-static inicial + #720, #3967
-static inicial + #721, #3967
-static inicial + #722, #3967
-static inicial + #723, #3967
-static inicial + #724, #3967
-static inicial + #725, #3967
-static inicial + #726, #3967
-static inicial + #727, #3967
-static inicial + #728, #3967
-static inicial + #729, #3967
-static inicial + #730, #3967
-static inicial + #731, #0
-static inicial + #732, #3967
-static inicial + #733, #0
-static inicial + #734, #3967
-static inicial + #735, #3967
-static inicial + #736, #3967
-static inicial + #737, #3967
-static inicial + #738, #3967
-static inicial + #739, #3967
-static inicial + #740, #0
-static inicial + #741, #3967
-static inicial + #742, #3967
-static inicial + #743, #3967
-static inicial + #744, #0
-static inicial + #745, #3967
-static inicial + #746, #3967
-static inicial + #747, #0
-static inicial + #748, #0
-static inicial + #749, #3967
-static inicial + #750, #3967
-static inicial + #751, #3967
-static inicial + #752, #3967
-static inicial + #753, #0
-static inicial + #754, #3967
-static inicial + #755, #3967
-static inicial + #756, #3967
-static inicial + #757, #3967
-static inicial + #758, #3967
-static inicial + #759, #3967
+  ;Linha 13
+  static Pato + #520, #3967
+  static Pato + #521, #3967
+  static Pato + #522, #3967
+  static Pato + #523, #3
+  static Pato + #524, #3
+  static Pato + #525, #3
+  static Pato + #526, #3967
+  static Pato + #527, #3967
+  static Pato + #528, #3
+  static Pato + #529, #3967
+  static Pato + #530, #2816
+  static Pato + #531, #2816
+  static Pato + #532, #2816
+  static Pato + #533, #2816
+  static Pato + #534, #2816
+  static Pato + #535, #2816
+  static Pato + #536, #2816
+  static Pato + #537, #2816
+  static Pato + #538, #2816
+  static Pato + #539, #2816
+  static Pato + #540, #2816
+  static Pato + #541, #2816
+  static Pato + #542, #2816
+  static Pato + #543, #2816
+  static Pato + #544, #2816
+  static Pato + #545, #2816
+  static Pato + #546, #2816
+  static Pato + #547, #2816
+  static Pato + #548, #2816
+  static Pato + #549, #2816
+  static Pato + #550, #2816
+  static Pato + #551, #2816
+  static Pato + #552, #2816
+  static Pato + #553, #2816
+  static Pato + #554, #3967
+  static Pato + #555, #3
+  static Pato + #556, #3967
+  static Pato + #557, #3967
+  static Pato + #558, #3967
+  static Pato + #559, #3967
 
-;Linha 19
-static inicial + #760, #3967
-static inicial + #761, #3967
-static inicial + #762, #3967
-static inicial + #763, #3967
-static inicial + #764, #3967
-static inicial + #765, #3967
-static inicial + #766, #3967
-static inicial + #767, #3967
-static inicial + #768, #3967
-static inicial + #769, #3967
-static inicial + #770, #3967
-static inicial + #771, #0
-static inicial + #772, #3967
-static inicial + #773, #0
-static inicial + #774, #3967
-static inicial + #775, #3967
-static inicial + #776, #3967
-static inicial + #777, #3967
-static inicial + #778, #3967
-static inicial + #779, #0
-static inicial + #780, #0
-static inicial + #781, #0
-static inicial + #782, #0
-static inicial + #783, #0
-static inicial + #784, #0
-static inicial + #785, #0
-static inicial + #786, #3967
-static inicial + #787, #3967
-static inicial + #788, #0
-static inicial + #789, #3967
-static inicial + #790, #3967
-static inicial + #791, #3967
-static inicial + #792, #3967
-static inicial + #793, #0
-static inicial + #794, #3967
-static inicial + #795, #3967
-static inicial + #796, #3967
-static inicial + #797, #3967
-static inicial + #798, #3967
-static inicial + #799, #3967
+  ;Linha 14
+  static Pato + #560, #3967
+  static Pato + #561, #3967
+  static Pato + #562, #3967
+  static Pato + #563, #3
+  static Pato + #564, #3967
+  static Pato + #565, #3
+  static Pato + #566, #3
+  static Pato + #567, #3967
+  static Pato + #568, #3
+  static Pato + #569, #3967
+  static Pato + #570, #3840
+  static Pato + #571, #2816
+  static Pato + #572, #2816
+  static Pato + #573, #2816
+  static Pato + #574, #2816
+  static Pato + #575, #2816
+  static Pato + #576, #2816
+  static Pato + #577, #2816
+  static Pato + #578, #2816
+  static Pato + #579, #2816
+  static Pato + #580, #2816
+  static Pato + #581, #2816
+  static Pato + #582, #2816
+  static Pato + #583, #2816
+  static Pato + #584, #2816
+  static Pato + #585, #2816
+  static Pato + #586, #2816
+  static Pato + #587, #2816
+  static Pato + #588, #2816
+  static Pato + #589, #2816
+  static Pato + #590, #2816
+  static Pato + #591, #2816
+  static Pato + #592, #2816
+  static Pato + #593, #2816
+  static Pato + #594, #3967
+  static Pato + #595, #3
+  static Pato + #596, #3967
+  static Pato + #597, #3967
+  static Pato + #598, #3967
+  static Pato + #599, #3967
 
-;Linha 20
-static inicial + #800, #3967
-static inicial + #801, #3967
-static inicial + #802, #3967
-static inicial + #803, #3967
-static inicial + #804, #3967
-static inicial + #805, #3967
-static inicial + #806, #3967
-static inicial + #807, #3967
-static inicial + #808, #3967
-static inicial + #809, #3967
-static inicial + #810, #3967
-static inicial + #811, #0
-static inicial + #812, #3967
-static inicial + #813, #0
-static inicial + #814, #3967
-static inicial + #815, #3967
-static inicial + #816, #3967
-static inicial + #817, #3967
-static inicial + #818, #3967
-static inicial + #819, #0
-static inicial + #820, #3967
-static inicial + #821, #3967
-static inicial + #822, #3967
-static inicial + #823, #3967
-static inicial + #824, #3967
-static inicial + #825, #0
-static inicial + #826, #3967
-static inicial + #827, #3967
-static inicial + #828, #0
-static inicial + #829, #3967
-static inicial + #830, #3967
-static inicial + #831, #3967
-static inicial + #832, #3967
-static inicial + #833, #0
-static inicial + #834, #3967
-static inicial + #835, #3967
-static inicial + #836, #3967
-static inicial + #837, #3967
-static inicial + #838, #3967
-static inicial + #839, #3967
+  ;Linha 15
+  static Pato + #600, #3967
+  static Pato + #601, #3967
+  static Pato + #602, #3967
+  static Pato + #603, #3
+  static Pato + #604, #3967
+  static Pato + #605, #3967
+  static Pato + #606, #3
+  static Pato + #607, #3967
+  static Pato + #608, #3
+  static Pato + #609, #3
+  static Pato + #610, #3967
+  static Pato + #611, #3967
+  static Pato + #612, #2816
+  static Pato + #613, #2816
+  static Pato + #614, #2816
+  static Pato + #615, #2816
+  static Pato + #616, #2816
+  static Pato + #617, #2816
+  static Pato + #618, #2816
+  static Pato + #619, #2816
+  static Pato + #620, #2816
+  static Pato + #621, #2816
+  static Pato + #622, #2816
+  static Pato + #623, #2816
+  static Pato + #624, #2816
+  static Pato + #625, #2816
+  static Pato + #626, #2816
+  static Pato + #627, #2816
+  static Pato + #628, #2816
+  static Pato + #629, #2816
+  static Pato + #630, #2816
+  static Pato + #631, #2816
+  static Pato + #632, #2816
+  static Pato + #633, #2816
+  static Pato + #634, #3967
+  static Pato + #635, #3
+  static Pato + #636, #3967
+  static Pato + #637, #3967
+  static Pato + #638, #3967
+  static Pato + #639, #3967
 
-;Linha 21
-static inicial + #840, #3967
-static inicial + #841, #3967
-static inicial + #842, #3967
-static inicial + #843, #3967
-static inicial + #844, #3967
-static inicial + #845, #3967
-static inicial + #846, #3967
-static inicial + #847, #3967
-static inicial + #848, #3967
-static inicial + #849, #3967
-static inicial + #850, #3967
-static inicial + #851, #0
-static inicial + #852, #3967
-static inicial + #853, #0
-static inicial + #854, #3967
-static inicial + #855, #3967
-static inicial + #856, #3967
-static inicial + #857, #3967
-static inicial + #858, #0
-static inicial + #859, #3967
-static inicial + #860, #3967
-static inicial + #861, #3967
-static inicial + #862, #3967
-static inicial + #863, #3967
-static inicial + #864, #3967
-static inicial + #865, #3967
-static inicial + #866, #0
-static inicial + #867, #3967
-static inicial + #868, #0
-static inicial + #869, #0
-static inicial + #870, #3967
-static inicial + #871, #3967
-static inicial + #872, #3967
-static inicial + #873, #0
-static inicial + #874, #3967
-static inicial + #875, #3967
-static inicial + #876, #3967
-static inicial + #877, #3967
-static inicial + #878, #3967
-static inicial + #879, #3967
+  ;Linha 16
+  static Pato + #640, #3967
+  static Pato + #641, #1792
+  static Pato + #642, #1792
+  static Pato + #643, #1792
+  static Pato + #644, #1792
+  static Pato + #645, #1792
+  static Pato + #646, #1792
+  static Pato + #647, #1792
+  static Pato + #648, #3967
+  static Pato + #649, #3967
+  static Pato + #650, #3
+  static Pato + #651, #3
+  static Pato + #652, #3
+  static Pato + #653, #2816
+  static Pato + #654, #2816
+  static Pato + #655, #2816
+  static Pato + #656, #2816
+  static Pato + #657, #2816
+  static Pato + #658, #2816
+  static Pato + #659, #2816
+  static Pato + #660, #2816
+  static Pato + #661, #2816
+  static Pato + #662, #2816
+  static Pato + #663, #2816
+  static Pato + #664, #2816
+  static Pato + #665, #2816
+  static Pato + #666, #2816
+  static Pato + #667, #2816
+  static Pato + #668, #2816
+  static Pato + #669, #2816
+  static Pato + #670, #2816
+  static Pato + #671, #2816
+  static Pato + #672, #2816
+  static Pato + #673, #2816
+  static Pato + #674, #3967
+  static Pato + #675, #3
+  static Pato + #676, #3
+  static Pato + #677, #3967
+  static Pato + #678, #3967
+  static Pato + #679, #3967
 
-;Linha 22
-static inicial + #880, #3967
-static inicial + #881, #3967
-static inicial + #882, #3967
-static inicial + #883, #0
-static inicial + #884, #0
-static inicial + #885, #0
-static inicial + #886, #0
-static inicial + #887, #0
-static inicial + #888, #0
-static inicial + #889, #0
-static inicial + #890, #0
-static inicial + #891, #0
-static inicial + #892, #3967
-static inicial + #893, #0
-static inicial + #894, #3967
-static inicial + #895, #3967
-static inicial + #896, #3967
-static inicial + #897, #3967
-static inicial + #898, #0
-static inicial + #899, #3967
-static inicial + #900, #3967
-static inicial + #901, #3967
-static inicial + #902, #3967
-static inicial + #903, #3967
-static inicial + #904, #3967
-static inicial + #905, #3967
-static inicial + #906, #0
-static inicial + #907, #3967
-static inicial + #908, #3967
-static inicial + #909, #0
-static inicial + #910, #0
-static inicial + #911, #0
-static inicial + #912, #3967
-static inicial + #913, #0
-static inicial + #914, #0
-static inicial + #915, #0
-static inicial + #916, #0
-static inicial + #917, #3967
-static inicial + #918, #3967
-static inicial + #919, #3967
+  ;Linha 17
+  static Pato + #680, #3967
+  static Pato + #681, #3967
+  static Pato + #682, #3967
+  static Pato + #683, #3
+  static Pato + #684, #3967
+  static Pato + #685, #3
+  static Pato + #686, #3
+  static Pato + #687, #3
+  static Pato + #688, #3
+  static Pato + #689, #3
+  static Pato + #690, #3967
+  static Pato + #691, #3967
+  static Pato + #692, #3
+  static Pato + #693, #3
+  static Pato + #694, #2816
+  static Pato + #695, #2816
+  static Pato + #696, #2816
+  static Pato + #697, #2816
+  static Pato + #698, #2816
+  static Pato + #699, #2816
+  static Pato + #700, #2816
+  static Pato + #701, #2816
+  static Pato + #702, #2816
+  static Pato + #703, #2816
+  static Pato + #704, #2816
+  static Pato + #705, #2816
+  static Pato + #706, #2816
+  static Pato + #707, #2816
+  static Pato + #708, #2816
+  static Pato + #709, #2816
+  static Pato + #710, #2816
+  static Pato + #711, #2816
+  static Pato + #712, #2816
+  static Pato + #713, #2816
+  static Pato + #714, #3967
+  static Pato + #715, #3967
+  static Pato + #716, #3
+  static Pato + #717, #3967
+  static Pato + #718, #3967
+  static Pato + #719, #3967
 
-;Linha 23
-static inicial + #920, #3967
-static inicial + #921, #3967
-static inicial + #922, #3967
-static inicial + #923, #3967
-static inicial + #924, #3967
-static inicial + #925, #3967
-static inicial + #926, #3967
-static inicial + #927, #3967
-static inicial + #928, #3967
-static inicial + #929, #3967
-static inicial + #930, #3967
-static inicial + #931, #3967
-static inicial + #932, #3967
-static inicial + #933, #3967
-static inicial + #934, #3967
-static inicial + #935, #3967
-static inicial + #936, #3967
-static inicial + #937, #3967
-static inicial + #938, #3967
-static inicial + #939, #3967
-static inicial + #940, #3967
-static inicial + #941, #3967
-static inicial + #942, #3967
-static inicial + #943, #3967
-static inicial + #944, #3967
-static inicial + #945, #3967
-static inicial + #946, #3967
-static inicial + #947, #3967
-static inicial + #948, #3967
-static inicial + #949, #3967
-static inicial + #950, #3967
-static inicial + #951, #3967
-static inicial + #952, #3967
-static inicial + #953, #3967
-static inicial + #954, #3967
-static inicial + #955, #3967
-static inicial + #956, #3967
-static inicial + #957, #3967
-static inicial + #958, #3967
-static inicial + #959, #3967
+  ;Linha 18
+  static Pato + #720, #3967
+  static Pato + #721, #3967
+  static Pato + #722, #3967
+  static Pato + #723, #3
+  static Pato + #724, #3
+  static Pato + #725, #3
+  static Pato + #726, #3
+  static Pato + #727, #3
+  static Pato + #728, #3
+  static Pato + #729, #3
+  static Pato + #730, #3967
+  static Pato + #731, #3967
+  static Pato + #732, #3967
+  static Pato + #733, #3
+  static Pato + #734, #3
+  static Pato + #735, #3
+  static Pato + #736, #2816
+  static Pato + #737, #2816
+  static Pato + #738, #2816
+  static Pato + #739, #2816
+  static Pato + #740, #2816
+  static Pato + #741, #2816
+  static Pato + #742, #2816
+  static Pato + #743, #2816
+  static Pato + #744, #2816
+  static Pato + #745, #2816
+  static Pato + #746, #2816
+  static Pato + #747, #2816
+  static Pato + #748, #2816
+  static Pato + #749, #2816
+  static Pato + #750, #2816
+  static Pato + #751, #2816
+  static Pato + #752, #2816
+  static Pato + #753, #2816
+  static Pato + #754, #3
+  static Pato + #755, #3
+  static Pato + #756, #3
+  static Pato + #757, #3967
+  static Pato + #758, #3967
+  static Pato + #759, #3967
 
-;Linha 24
-static inicial + #960, #3967
-static inicial + #961, #3967
-static inicial + #962, #3967
-static inicial + #963, #3967
-static inicial + #964, #3967
-static inicial + #965, #3967
-static inicial + #966, #3967
-static inicial + #967, #3967
-static inicial + #968, #3967
-static inicial + #969, #3967
-static inicial + #970, #3967
-static inicial + #971, #3967
-static inicial + #972, #3967
-static inicial + #973, #3967
-static inicial + #974, #3967
-static inicial + #975, #3967
-static inicial + #976, #3967
-static inicial + #977, #3967
-static inicial + #978, #3967
-static inicial + #979, #3967
-static inicial + #980, #3967
-static inicial + #981, #3967
-static inicial + #982, #3967
-static inicial + #983, #3967
-static inicial + #984, #3967
-static inicial + #985, #3967
-static inicial + #986, #3967
-static inicial + #987, #3967
-static inicial + #988, #3967
-static inicial + #989, #3967
-static inicial + #990, #3967
-static inicial + #991, #3967
-static inicial + #992, #3967
-static inicial + #993, #3967
-static inicial + #994, #3967
-static inicial + #995, #3967
-static inicial + #996, #3967
-static inicial + #997, #3967
-static inicial + #998, #3967
-static inicial + #999, #3967
+  ;Linha 19
+  static Pato + #760, #3967
+  static Pato + #761, #3967
+  static Pato + #762, #3
+  static Pato + #763, #3
+  static Pato + #764, #3
+  static Pato + #765, #3
+  static Pato + #766, #3
+  static Pato + #767, #3
+  static Pato + #768, #3
+  static Pato + #769, #3
+  static Pato + #770, #3
+  static Pato + #771, #3
+  static Pato + #772, #3967
+  static Pato + #773, #3967
+  static Pato + #774, #3967
+  static Pato + #775, #3967
+  static Pato + #776, #3
+  static Pato + #777, #3967
+  static Pato + #778, #3967
+  static Pato + #779, #3
+  static Pato + #780, #3967
+  static Pato + #781, #3967
+  static Pato + #782, #768
+  static Pato + #783, #768
+  static Pato + #784, #768
+  static Pato + #785, #768
+  static Pato + #786, #3967
+  static Pato + #787, #3
+  static Pato + #788, #3967
+  static Pato + #789, #3967
+  static Pato + #790, #3967
+  static Pato + #791, #3967
+  static Pato + #792, #3967
+  static Pato + #793, #3967
+  static Pato + #794, #3967
+  static Pato + #795, #3967
+  static Pato + #796, #3967
+  static Pato + #797, #3967
+  static Pato + #798, #3967
+  static Pato + #799, #3967
 
-;Linha 25
-static inicial + #1000, #3967
-static inicial + #1001, #3967
-static inicial + #1002, #3967
-static inicial + #1003, #3967
-static inicial + #1004, #3967
-static inicial + #1005, #3967
-static inicial + #1006, #3967
-static inicial + #1007, #3967
-static inicial + #1008, #3967
-static inicial + #1009, #3967
-static inicial + #1010, #3967
-static inicial + #1011, #3967
-static inicial + #1012, #3967
-static inicial + #1013, #3967
-static inicial + #1014, #3967
-static inicial + #1015, #3967
-static inicial + #1016, #3967
-static inicial + #1017, #3967
-static inicial + #1018, #3967
-static inicial + #1019, #3967
-static inicial + #1020, #3967
-static inicial + #1021, #3967
-static inicial + #1022, #3967
-static inicial + #1023, #3967
-static inicial + #1024, #3967
-static inicial + #1025, #3967
-static inicial + #1026, #3967
-static inicial + #1027, #3967
-static inicial + #1028, #3967
-static inicial + #1029, #3967
-static inicial + #1030, #3967
-static inicial + #1031, #3967
-static inicial + #1032, #3967
-static inicial + #1033, #3967
-static inicial + #1034, #3967
-static inicial + #1035, #3967
-static inicial + #1036, #3967
-static inicial + #1037, #3967
-static inicial + #1038, #3967
-static inicial + #1039, #3967
+  ;Linha 20
+  static Pato + #800, #3967
+  static Pato + #801, #3967
+  static Pato + #802, #3967
+  static Pato + #803, #3
+  static Pato + #804, #3
+  static Pato + #805, #3967
+  static Pato + #806, #3967
+  static Pato + #807, #3
+  static Pato + #808, #3
+  static Pato + #809, #3
+  static Pato + #810, #3
+  static Pato + #811, #3
+  static Pato + #812, #3967
+  static Pato + #813, #3967
+  static Pato + #814, #3967
+  static Pato + #815, #3967
+  static Pato + #816, #3967
+  static Pato + #817, #3967
+  static Pato + #818, #3967
+  static Pato + #819, #3967
+  static Pato + #820, #3967
+  static Pato + #821, #3967
+  static Pato + #822, #768
+  static Pato + #823, #768
+  static Pato + #824, #768
+  static Pato + #825, #768
+  static Pato + #826, #3967
+  static Pato + #827, #3967
+  static Pato + #828, #3
+  static Pato + #829, #3967
+  static Pato + #830, #3967
+  static Pato + #831, #3967
+  static Pato + #832, #3967
+  static Pato + #833, #3967
+  static Pato + #834, #3967
+  static Pato + #835, #3967
+  static Pato + #836, #3967
+  static Pato + #837, #3967
+  static Pato + #838, #3967
+  static Pato + #839, #3967
 
-;Linha 26
-static inicial + #1040, #3967
-static inicial + #1041, #3967
-static inicial + #1042, #3967
-static inicial + #1043, #3967
-static inicial + #1044, #3967
-static inicial + #1045, #3967
-static inicial + #1046, #3967
-static inicial + #1047, #3967
-static inicial + #1048, #3967
-static inicial + #1049, #3967
-static inicial + #1050, #3967
-static inicial + #1051, #3967
-static inicial + #1052, #3967
-static inicial + #1053, #3967
-static inicial + #1054, #3967
-static inicial + #1055, #3967
-static inicial + #1056, #3967
-static inicial + #1057, #3967
-static inicial + #1058, #3967
-static inicial + #1059, #3967
-static inicial + #1060, #3967
-static inicial + #1061, #3967
-static inicial + #1062, #3967
-static inicial + #1063, #3967
-static inicial + #1064, #3967
-static inicial + #1065, #3967
-static inicial + #1066, #3967
-static inicial + #1067, #3967
-static inicial + #1068, #3967
-static inicial + #1069, #3967
-static inicial + #1070, #3967
-static inicial + #1071, #3967
-static inicial + #1072, #3967
-static inicial + #1073, #3967
-static inicial + #1074, #3967
-static inicial + #1075, #3967
-static inicial + #1076, #3967
-static inicial + #1077, #3967
-static inicial + #1078, #3967
-static inicial + #1079, #3967
+  ;Linha 21
+  static Pato + #840, #3967
+  static Pato + #841, #3967
+  static Pato + #842, #3
+  static Pato + #843, #3
+  static Pato + #844, #3
+  static Pato + #845, #3
+  static Pato + #846, #3
+  static Pato + #847, #3
+  static Pato + #848, #3
+  static Pato + #849, #3
+  static Pato + #850, #3
+  static Pato + #851, #3967
+  static Pato + #852, #3967
+  static Pato + #853, #3967
+  static Pato + #854, #3967
+  static Pato + #855, #3967
+  static Pato + #856, #3967
+  static Pato + #857, #3967
+  static Pato + #858, #3967
+  static Pato + #859, #3967
+  static Pato + #860, #3967
+  static Pato + #861, #3967
+  static Pato + #862, #768
+  static Pato + #863, #768
+  static Pato + #864, #768
+  static Pato + #865, #768
+  static Pato + #866, #259
+  static Pato + #867, #259
+  static Pato + #868, #259
+  static Pato + #869, #259
+  static Pato + #870, #259
+  static Pato + #871, #259
+  static Pato + #872, #259
+  static Pato + #873, #259
+  static Pato + #874, #259
+  static Pato + #875, #3
+  static Pato + #876, #3967
+  static Pato + #877, #3967
+  static Pato + #878, #3967
+  static Pato + #879, #3
 
-;Linha 27
-static inicial + #1080, #3967
-static inicial + #1081, #3967
-static inicial + #1082, #3967
-static inicial + #1083, #3967
-static inicial + #1084, #3967
-static inicial + #1085, #3967
-static inicial + #1086, #3967
-static inicial + #1087, #3967
-static inicial + #1088, #3967
-static inicial + #1089, #3967
-static inicial + #1090, #3967
-static inicial + #1091, #3967
-static inicial + #1092, #3967
-static inicial + #1093, #3967
-static inicial + #1094, #3967
-static inicial + #1095, #3967
-static inicial + #1096, #3967
-static inicial + #1097, #3967
-static inicial + #1098, #3967
-static inicial + #1099, #3967
-static inicial + #1100, #3967
-static inicial + #1101, #3967
-static inicial + #1102, #3967
-static inicial + #1103, #3967
-static inicial + #1104, #3967
-static inicial + #1105, #3967
-static inicial + #1106, #3967
-static inicial + #1107, #3967
-static inicial + #1108, #3967
-static inicial + #1109, #3967
-static inicial + #1110, #3967
-static inicial + #1111, #3967
-static inicial + #1112, #3967
-static inicial + #1113, #3967
-static inicial + #1114, #3967
-static inicial + #1115, #3967
-static inicial + #1116, #3967
-static inicial + #1117, #3967
-static inicial + #1118, #3967
-static inicial + #1119, #3967
+  ;Linha 22
+  static Pato + #880, #256
+  static Pato + #881, #256
+  static Pato + #882, #256
+  static Pato + #883, #256
+  static Pato + #884, #256
+  static Pato + #885, #256
+  static Pato + #886, #256
+  static Pato + #887, #256
+  static Pato + #888, #256
+  static Pato + #889, #256
+  static Pato + #890, #256
+  static Pato + #891, #256
+  static Pato + #892, #256
+  static Pato + #893, #256
+  static Pato + #894, #256
+  static Pato + #895, #256
+  static Pato + #896, #256
+  static Pato + #897, #256
+  static Pato + #898, #256
+  static Pato + #899, #256
+  static Pato + #900, #256
+  static Pato + #901, #256
+  static Pato + #902, #256
+  static Pato + #903, #256
+  static Pato + #904, #256
+  static Pato + #905, #256
+  static Pato + #906, #256
+  static Pato + #907, #256
+  static Pato + #908, #256
+  static Pato + #909, #256
+  static Pato + #910, #256
+  static Pato + #911, #256
+  static Pato + #912, #256
+  static Pato + #913, #256
+  static Pato + #914, #256
+  static Pato + #915, #256
+  static Pato + #916, #256
+  static Pato + #917, #256
+  static Pato + #918, #256
+  static Pato + #919, #256
 
-;Linha 28
-static inicial + #1120, #3967
-static inicial + #1121, #3967
-static inicial + #1122, #3967
-static inicial + #1123, #3967
-static inicial + #1124, #3967
-static inicial + #1125, #3967
-static inicial + #1126, #3967
-static inicial + #1127, #3967
-static inicial + #1128, #3967
-static inicial + #1129, #3967
-static inicial + #1130, #3967
-static inicial + #1131, #3967
-static inicial + #1132, #3967
-static inicial + #1133, #3967
-static inicial + #1134, #3967
-static inicial + #1135, #3967
-static inicial + #1136, #3967
-static inicial + #1137, #3967
-static inicial + #1138, #3967
-static inicial + #1139, #3967
-static inicial + #1140, #3967
-static inicial + #1141, #3967
-static inicial + #1142, #3967
-static inicial + #1143, #3967
-static inicial + #1144, #3967
-static inicial + #1145, #3967
-static inicial + #1146, #3967
-static inicial + #1147, #3967
-static inicial + #1148, #3967
-static inicial + #1149, #3967
-static inicial + #1150, #3967
-static inicial + #1151, #3967
-static inicial + #1152, #3967
-static inicial + #1153, #3967
-static inicial + #1154, #3967
-static inicial + #1155, #3967
-static inicial + #1156, #3967
-static inicial + #1157, #3967
-static inicial + #1158, #3967
-static inicial + #1159, #3967
+  ;Linha 23
+  static Pato + #920, #256
+  static Pato + #921, #256
+  static Pato + #922, #256
+  static Pato + #923, #256
+  static Pato + #924, #256
+  static Pato + #925, #256
+  static Pato + #926, #256
+  static Pato + #927, #256
+  static Pato + #928, #256
+  static Pato + #929, #256
+  static Pato + #930, #256
+  static Pato + #931, #256
+  static Pato + #932, #256
+  static Pato + #933, #256
+  static Pato + #934, #256
+  static Pato + #935, #256
+  static Pato + #936, #256
+  static Pato + #937, #256
+  static Pato + #938, #256
+  static Pato + #939, #256
+  static Pato + #940, #256
+  static Pato + #941, #256
+  static Pato + #942, #256
+  static Pato + #943, #256
+  static Pato + #944, #256
+  static Pato + #945, #256
+  static Pato + #946, #256
+  static Pato + #947, #256
+  static Pato + #948, #256
+  static Pato + #949, #256
+  static Pato + #950, #256
+  static Pato + #951, #256
+  static Pato + #952, #256
+  static Pato + #953, #256
+  static Pato + #954, #256
+  static Pato + #955, #256
+  static Pato + #956, #256
+  static Pato + #957, #256
+  static Pato + #958, #256
+  static Pato + #959, #256
 
-;Linha 29
-static inicial + #1160, #3967
-static inicial + #1161, #3967
-static inicial + #1162, #3967
-static inicial + #1163, #3967
-static inicial + #1164, #3967
-static inicial + #1165, #3967
-static inicial + #1166, #3967
-static inicial + #1167, #3967
-static inicial + #1168, #3967
-static inicial + #1169, #3967
-static inicial + #1170, #3967
-static inicial + #1171, #3967
-static inicial + #1172, #3967
-static inicial + #1173, #3967
-static inicial + #1174, #3967
-static inicial + #1175, #3967
-static inicial + #1176, #3967
-static inicial + #1177, #3967
-static inicial + #1178, #3967
-static inicial + #1179, #3967
-static inicial + #1180, #3967
-static inicial + #1181, #3967
-static inicial + #1182, #3967
-static inicial + #1183, #3967
-static inicial + #1184, #3967
-static inicial + #1185, #3967
-static inicial + #1186, #3967
-static inicial + #1187, #3967
-static inicial + #1188, #3967
-static inicial + #1189, #3967
-static inicial + #1190, #3967
-static inicial + #1191, #3967
-static inicial + #1192, #3967
-static inicial + #1193, #3967
-static inicial + #1194, #3967
-static inicial + #1195, #3967
-static inicial + #1196, #3967
-static inicial + #1197, #3967
-static inicial + #1198, #3967
-static inicial + #1199, #3967
+  ;Linha 24
+  static Pato + #960, #3
+  static Pato + #961, #3
+  static Pato + #962, #3
+  static Pato + #963, #3
+  static Pato + #964, #3
+  static Pato + #965, #3
+  static Pato + #966, #3
+  static Pato + #967, #3
+  static Pato + #968, #3
+  static Pato + #969, #3
+  static Pato + #970, #3
+  static Pato + #971, #3
+  static Pato + #972, #3
+  static Pato + #973, #3
+  static Pato + #974, #3
+  static Pato + #975, #3
+  static Pato + #976, #3
+  static Pato + #977, #3
+  static Pato + #978, #3
+  static Pato + #979, #3
+  static Pato + #980, #3
+  static Pato + #981, #3
+  static Pato + #982, #3
+  static Pato + #983, #3
+  static Pato + #984, #3
+  static Pato + #985, #3
+  static Pato + #986, #3
+  static Pato + #987, #3
+  static Pato + #988, #3
+  static Pato + #989, #3
+  static Pato + #990, #3
+  static Pato + #991, #3
+  static Pato + #992, #3
+  static Pato + #993, #3
+  static Pato + #994, #3
+  static Pato + #995, #3
+  static Pato + #996, #3
+  static Pato + #997, #3
+  static Pato + #998, #3
+  static Pato + #999, #3
+
+  ;Linha 25
+  static Pato + #1000, #0
+  static Pato + #1001, #0
+  static Pato + #1002, #0
+  static Pato + #1003, #3
+  static Pato + #1004, #0
+  static Pato + #1005, #0
+  static Pato + #1006, #0
+  static Pato + #1007, #0
+  static Pato + #1008, #3
+  static Pato + #1009, #0
+  static Pato + #1010, #0
+  static Pato + #1011, #3
+  static Pato + #1012, #0
+  static Pato + #1013, #0
+  static Pato + #1014, #0
+  static Pato + #1015, #3
+  static Pato + #1016, #0
+  static Pato + #1017, #0
+  static Pato + #1018, #0
+  static Pato + #1019, #3
+  static Pato + #1020, #3
+  static Pato + #1021, #0
+  static Pato + #1022, #0
+  static Pato + #1023, #0
+  static Pato + #1024, #3
+  static Pato + #1025, #0
+  static Pato + #1026, #0
+  static Pato + #1027, #0
+  static Pato + #1028, #3
+  static Pato + #1029, #0
+  static Pato + #1030, #0
+  static Pato + #1031, #0
+  static Pato + #1032, #3
+  static Pato + #1033, #0
+  static Pato + #1034, #0
+  static Pato + #1035, #0
+  static Pato + #1036, #3967
+  static Pato + #1037, #0
+  static Pato + #1038, #0
+  static Pato + #1039, #0
+
+  ;Linha 26
+  static Pato + #1040, #0
+  static Pato + #1041, #3
+  static Pato + #1042, #0
+  static Pato + #1043, #3
+  static Pato + #1044, #0
+  static Pato + #1045, #3
+  static Pato + #1046, #3
+  static Pato + #1047, #0
+  static Pato + #1048, #3
+  static Pato + #1049, #0
+  static Pato + #1050, #3
+  static Pato + #1051, #3
+  static Pato + #1052, #0
+  static Pato + #1053, #3
+  static Pato + #1054, #3
+  static Pato + #1055, #3
+  static Pato + #1056, #0
+  static Pato + #1057, #3
+  static Pato + #1058, #3
+  static Pato + #1059, #3
+  static Pato + #1060, #3
+  static Pato + #1061, #0
+  static Pato + #1062, #3
+  static Pato + #1063, #3
+  static Pato + #1064, #3
+  static Pato + #1065, #0
+  static Pato + #1066, #3
+  static Pato + #1067, #0
+  static Pato + #1068, #3
+  static Pato + #1069, #0
+  static Pato + #1070, #3
+  static Pato + #1071, #0
+  static Pato + #1072, #3
+  static Pato + #1073, #0
+  static Pato + #1074, #3967
+  static Pato + #1075, #3
+  static Pato + #1076, #3
+  static Pato + #1077, #0
+  static Pato + #1078, #3
+  static Pato + #1079, #3
+
+  ;Linha 27
+  static Pato + #1080, #0
+  static Pato + #1081, #0
+  static Pato + #1082, #0
+  static Pato + #1083, #3
+  static Pato + #1084, #0
+  static Pato + #1085, #0
+  static Pato + #1086, #0
+  static Pato + #1087, #0
+  static Pato + #1088, #3
+  static Pato + #1089, #0
+  static Pato + #1090, #0
+  static Pato + #1091, #3
+  static Pato + #1092, #0
+  static Pato + #1093, #0
+  static Pato + #1094, #0
+  static Pato + #1095, #3967
+  static Pato + #1096, #0
+  static Pato + #1097, #0
+  static Pato + #1098, #0
+  static Pato + #1099, #3967
+  static Pato + #1100, #3967
+  static Pato + #1101, #0
+  static Pato + #1102, #0
+  static Pato + #1103, #0
+  static Pato + #1104, #3967
+  static Pato + #1105, #0
+  static Pato + #1106, #0
+  static Pato + #1107, #0
+  static Pato + #1108, #3967
+  static Pato + #1109, #0
+  static Pato + #1110, #0
+  static Pato + #1111, #0
+  static Pato + #1112, #3
+  static Pato + #1113, #0
+  static Pato + #1114, #3
+  static Pato + #1115, #3967
+  static Pato + #1116, #3967
+  static Pato + #1117, #0
+  static Pato + #1118, #0
+  static Pato + #1119, #0
+
+  ;Linha 28
+  static Pato + #1120, #0
+  static Pato + #1121, #3967
+  static Pato + #1122, #3967
+  static Pato + #1123, #3
+  static Pato + #1124, #0
+  static Pato + #1125, #3967
+  static Pato + #1126, #0
+  static Pato + #1127, #3
+  static Pato + #1128, #3
+  static Pato + #1129, #0
+  static Pato + #1130, #3
+  static Pato + #1131, #3967
+  static Pato + #1132, #3967
+  static Pato + #1133, #3967
+  static Pato + #1134, #0
+  static Pato + #1135, #3967
+  static Pato + #1136, #3967
+  static Pato + #1137, #3967
+  static Pato + #1138, #0
+  static Pato + #1139, #3
+  static Pato + #1140, #3967
+  static Pato + #1141, #3967
+  static Pato + #1142, #3967
+  static Pato + #1143, #0
+  static Pato + #1144, #3967
+  static Pato + #1145, #0
+  static Pato + #1146, #3967
+  static Pato + #1147, #3967
+  static Pato + #1148, #3967
+  static Pato + #1149, #0
+  static Pato + #1150, #3967
+  static Pato + #1151, #0
+  static Pato + #1152, #3967
+  static Pato + #1153, #0
+  static Pato + #1154, #3967
+  static Pato + #1155, #3967
+  static Pato + #1156, #3967
+  static Pato + #1157, #0
+  static Pato + #1158, #3967
+  static Pato + #1159, #3967
+
+  ;Linha 29
+  static Pato + #1160, #0
+  static Pato + #1161, #3967
+  static Pato + #1162, #3967
+  static Pato + #1163, #3967
+  static Pato + #1164, #0
+  static Pato + #1165, #3967
+  static Pato + #1166, #3
+  static Pato + #1167, #0
+  static Pato + #1168, #3
+  static Pato + #1169, #0
+  static Pato + #1170, #0
+  static Pato + #1171, #3
+  static Pato + #1172, #0
+  static Pato + #1173, #0
+  static Pato + #1174, #0
+  static Pato + #1175, #3967
+  static Pato + #1176, #0
+  static Pato + #1177, #0
+  static Pato + #1178, #0
+  static Pato + #1179, #3967
+  static Pato + #1180, #3967
+  static Pato + #1181, #0
+  static Pato + #1182, #0
+  static Pato + #1183, #0
+  static Pato + #1184, #3967
+  static Pato + #1185, #0
+  static Pato + #1186, #3967
+  static Pato + #1187, #3967
+  static Pato + #1188, #3967
+  static Pato + #1189, #0
+  static Pato + #1190, #3967
+  static Pato + #1191, #0
+  static Pato + #1192, #3967
+  static Pato + #1193, #0
+  static Pato + #1194, #0
+  static Pato + #1195, #0
+  static Pato + #1196, #3967
+  static Pato + #1197, #0
+  static Pato + #1198, #0
+  static Pato + #1199, #0
+
+Screen : var #1200
+  ;Linha 0
+  static Screen + #0, #3967
+  static Screen + #1, #3967
+  static Screen + #2, #3967
+  static Screen + #3, #3967
+  static Screen + #4, #3967
+  static Screen + #5, #3967
+  static Screen + #6, #3967
+  static Screen + #7, #3967
+  static Screen + #8, #3967
+  static Screen + #9, #3967
+  static Screen + #10, #3967
+  static Screen + #11, #3967
+  static Screen + #12, #3967
+  static Screen + #13, #3967
+  static Screen + #14, #3967
+  static Screen + #15, #3967
+  static Screen + #16, #3967
+  static Screen + #17, #3967
+  static Screen + #18, #3967
+  static Screen + #19, #3967
+  static Screen + #20, #3967
+  static Screen + #21, #3967
+  static Screen + #22, #3967
+  static Screen + #23, #3967
+  static Screen + #24, #3967
+  static Screen + #25, #3967
+  static Screen + #26, #3967
+  static Screen + #27, #3967
+  static Screen + #28, #3967
+  static Screen + #29, #3967
+  static Screen + #30, #3967
+  static Screen + #31, #3967
+  static Screen + #32, #3967
+  static Screen + #33, #3967
+  static Screen + #34, #3967
+  static Screen + #35, #3967
+  static Screen + #36, #3967
+  static Screen + #37, #3967
+  static Screen + #38, #3967
+  static Screen + #39, #3967
+
+  ;Linha 1
+  static Screen + #40, #3967
+  static Screen + #41, #3967
+  static Screen + #42, #3967
+  static Screen + #43, #3967
+  static Screen + #44, #3967
+  static Screen + #45, #3967
+  static Screen + #46, #3967
+  static Screen + #47, #3967
+  static Screen + #48, #3967
+  static Screen + #49, #3967
+  static Screen + #50, #3967
+  static Screen + #51, #3967
+  static Screen + #52, #3967
+  static Screen + #53, #3967
+  static Screen + #54, #3967
+  static Screen + #55, #3967
+  static Screen + #56, #3967
+  static Screen + #57, #3967
+  static Screen + #58, #3967
+  static Screen + #59, #3967
+  static Screen + #60, #3967
+  static Screen + #61, #3967
+  static Screen + #62, #3967
+  static Screen + #63, #3967
+  static Screen + #64, #3967
+  static Screen + #65, #3967
+  static Screen + #66, #3967
+  static Screen + #67, #3967
+  static Screen + #68, #3967
+  static Screen + #69, #3967
+  static Screen + #70, #3967
+  static Screen + #71, #3967
+  static Screen + #72, #3967
+  static Screen + #73, #3967
+  static Screen + #74, #3967
+  static Screen + #75, #3
+  static Screen + #76, #3967
+  static Screen + #77, #3967
+  static Screen + #78, #3967
+  static Screen + #79, #3967
+
+  ;Linha 2
+  static Screen + #80, #3967
+  static Screen + #81, #3967
+  static Screen + #82, #3967
+  static Screen + #83, #3967
+  static Screen + #84, #3967
+  static Screen + #85, #3967
+  static Screen + #86, #3967
+  static Screen + #87, #3967
+  static Screen + #88, #3967
+  static Screen + #89, #3967
+  static Screen + #90, #3967
+  static Screen + #91, #3967
+  static Screen + #92, #3967
+  static Screen + #93, #3967
+  static Screen + #94, #3967
+  static Screen + #95, #3967
+  static Screen + #96, #3967
+  static Screen + #97, #3967
+  static Screen + #98, #3967
+  static Screen + #99, #3967
+  static Screen + #100, #3967
+  static Screen + #101, #3967
+  static Screen + #102, #3967
+  static Screen + #103, #3967
+  static Screen + #104, #3967
+  static Screen + #105, #3967
+  static Screen + #106, #3967
+  static Screen + #107, #3967
+  static Screen + #108, #3967
+  static Screen + #109, #3967
+  static Screen + #110, #3967
+  static Screen + #111, #3967
+  static Screen + #112, #3967
+  static Screen + #113, #3967
+  static Screen + #114, #3967
+  static Screen + #115, #3
+  static Screen + #116, #3967
+  static Screen + #117, #3967
+  static Screen + #118, #3967
+  static Screen + #119, #3967
+
+  ;Linha 3
+  static Screen + #120, #3967
+  static Screen + #121, #3967
+  static Screen + #122, #3967
+  static Screen + #123, #3967
+  static Screen + #124, #3967
+  static Screen + #125, #3967
+  static Screen + #126, #3967
+  static Screen + #127, #3967
+  static Screen + #128, #3967
+  static Screen + #129, #3967
+  static Screen + #130, #3967
+  static Screen + #131, #3967
+  static Screen + #132, #3967
+  static Screen + #133, #3967
+  static Screen + #134, #3967
+  static Screen + #135, #3967
+  static Screen + #136, #3967
+  static Screen + #137, #3967
+  static Screen + #138, #1
+  static Screen + #139, #3967
+  static Screen + #140, #3967
+  static Screen + #141, #3967
+  static Screen + #142, #3967
+  static Screen + #143, #3967
+  static Screen + #144, #3967
+  static Screen + #145, #3967
+  static Screen + #146, #3967
+  static Screen + #147, #3967
+  static Screen + #148, #3967
+  static Screen + #149, #3967
+  static Screen + #150, #3967
+  static Screen + #151, #3967
+  static Screen + #152, #3967
+  static Screen + #153, #3967
+  static Screen + #154, #3967
+  static Screen + #155, #3
+  static Screen + #156, #3967
+  static Screen + #157, #3967
+  static Screen + #158, #3967
+  static Screen + #159, #3967
+
+  ;Linha 4
+  static Screen + #160, #3967
+  static Screen + #161, #3967
+  static Screen + #162, #3967
+  static Screen + #163, #3967
+  static Screen + #164, #3967
+  static Screen + #165, #3967
+  static Screen + #166, #3967
+  static Screen + #167, #3967
+  static Screen + #168, #3967
+  static Screen + #169, #3967
+  static Screen + #170, #3967
+  static Screen + #171, #3967
+  static Screen + #172, #3967
+  static Screen + #173, #3967
+  static Screen + #174, #3967
+  static Screen + #175, #3967
+  static Screen + #176, #3967
+  static Screen + #177, #3967
+  static Screen + #178, #3
+  static Screen + #179, #3967
+  static Screen + #180, #3967
+  static Screen + #181, #3967
+  static Screen + #182, #3967
+  static Screen + #183, #3967
+  static Screen + #184, #3
+  static Screen + #185, #3967
+  static Screen + #186, #3967
+  static Screen + #187, #3
+  static Screen + #188, #3967
+  static Screen + #189, #3967
+  static Screen + #190, #3967
+  static Screen + #191, #3967
+  static Screen + #192, #3
+  static Screen + #193, #3
+  static Screen + #194, #3967
+  static Screen + #195, #3
+  static Screen + #196, #3
+  static Screen + #197, #3
+  static Screen + #198, #3967
+  static Screen + #199, #3967
+
+  ;Linha 5
+  static Screen + #200, #3967
+  static Screen + #201, #3967
+  static Screen + #202, #3967
+  static Screen + #203, #3967
+  static Screen + #204, #0
+  static Screen + #205, #0
+  static Screen + #206, #0
+  static Screen + #207, #0
+  static Screen + #208, #0
+  static Screen + #209, #0
+  static Screen + #210, #0
+  static Screen + #211, #0
+  static Screen + #212, #0
+  static Screen + #213, #3967
+  static Screen + #214, #3967
+  static Screen + #215, #3967
+  static Screen + #216, #3967
+  static Screen + #217, #3967
+  static Screen + #218, #0
+  static Screen + #219, #3967
+  static Screen + #220, #3967
+  static Screen + #221, #3967
+  static Screen + #222, #3967
+  static Screen + #223, #3967
+  static Screen + #224, #0
+  static Screen + #225, #0
+  static Screen + #226, #3
+  static Screen + #227, #3
+  static Screen + #228, #3967
+  static Screen + #229, #3967
+  static Screen + #230, #3
+  static Screen + #231, #3
+  static Screen + #232, #3
+  static Screen + #233, #3
+  static Screen + #234, #3
+  static Screen + #235, #0
+  static Screen + #236, #0
+  static Screen + #237, #0
+  static Screen + #238, #3967
+  static Screen + #239, #3967
+
+  ;Linha 6
+  static Screen + #240, #3967
+  static Screen + #241, #3967
+  static Screen + #242, #3967
+  static Screen + #243, #3967
+  static Screen + #244, #0
+  static Screen + #245, #3967
+  static Screen + #246, #3967
+  static Screen + #247, #3967
+  static Screen + #248, #3967
+  static Screen + #249, #3967
+  static Screen + #250, #3967
+  static Screen + #251, #3967
+  static Screen + #252, #3967
+  static Screen + #253, #3967
+  static Screen + #254, #3967
+  static Screen + #255, #3967
+  static Screen + #256, #3967
+  static Screen + #257, #3967
+  static Screen + #258, #0
+  static Screen + #259, #3967
+  static Screen + #260, #3967
+  static Screen + #261, #3967
+  static Screen + #262, #3967
+  static Screen + #263, #3967
+  static Screen + #264, #0
+  static Screen + #265, #0
+  static Screen + #266, #0
+  static Screen + #267, #3
+  static Screen + #268, #3
+  static Screen + #269, #3967
+  static Screen + #270, #3
+  static Screen + #271, #3
+  static Screen + #272, #3
+  static Screen + #273, #3
+  static Screen + #274, #0
+  static Screen + #275, #0
+  static Screen + #276, #4
+  static Screen + #277, #0
+  static Screen + #278, #3967
+  static Screen + #279, #3967
+
+  ;Linha 7
+  static Screen + #280, #3967
+  static Screen + #281, #3967
+  static Screen + #282, #3967
+  static Screen + #283, #3967
+  static Screen + #284, #0
+  static Screen + #285, #3967
+  static Screen + #286, #3967
+  static Screen + #287, #3967
+  static Screen + #288, #3967
+  static Screen + #289, #3967
+  static Screen + #290, #3967
+  static Screen + #291, #3967
+  static Screen + #292, #3967
+  static Screen + #293, #3967
+  static Screen + #294, #3967
+  static Screen + #295, #3967
+  static Screen + #296, #3967
+  static Screen + #297, #3967
+  static Screen + #298, #0
+  static Screen + #299, #3967
+  static Screen + #300, #3967
+  static Screen + #301, #3967
+  static Screen + #302, #3967
+  static Screen + #303, #3967
+  static Screen + #304, #0
+  static Screen + #305, #3
+  static Screen + #306, #0
+  static Screen + #307, #0
+  static Screen + #308, #3
+  static Screen + #309, #3
+  static Screen + #310, #3
+  static Screen + #311, #3
+  static Screen + #312, #3
+  static Screen + #313, #0
+  static Screen + #314, #0
+  static Screen + #315, #3
+  static Screen + #316, #3
+  static Screen + #317, #0
+  static Screen + #318, #3967
+  static Screen + #319, #3967
+
+  ;Linha 8
+  static Screen + #320, #3967
+  static Screen + #321, #3967
+  static Screen + #322, #3967
+  static Screen + #323, #3967
+  static Screen + #324, #0
+  static Screen + #325, #3967
+  static Screen + #326, #3967
+  static Screen + #327, #3967
+  static Screen + #328, #3967
+  static Screen + #329, #3967
+  static Screen + #330, #3967
+  static Screen + #331, #3967
+  static Screen + #332, #3967
+  static Screen + #333, #3967
+  static Screen + #334, #3967
+  static Screen + #335, #3967
+  static Screen + #336, #3967
+  static Screen + #337, #3967
+  static Screen + #338, #0
+  static Screen + #339, #3967
+  static Screen + #340, #3967
+  static Screen + #341, #3967
+  static Screen + #342, #3967
+  static Screen + #343, #3967
+  static Screen + #344, #0
+  static Screen + #345, #3
+  static Screen + #346, #3
+  static Screen + #347, #0
+  static Screen + #348, #0
+  static Screen + #349, #3
+  static Screen + #350, #3
+  static Screen + #351, #3
+  static Screen + #352, #0
+  static Screen + #353, #0
+  static Screen + #354, #3
+  static Screen + #355, #3967
+  static Screen + #356, #3
+  static Screen + #357, #0
+  static Screen + #358, #3967
+  static Screen + #359, #3967
+
+  ;Linha 9
+  static Screen + #360, #3967
+  static Screen + #361, #3967
+  static Screen + #362, #3967
+  static Screen + #363, #3967
+  static Screen + #364, #0
+  static Screen + #365, #3
+  static Screen + #366, #3967
+  static Screen + #367, #3967
+  static Screen + #368, #3967
+  static Screen + #369, #3967
+  static Screen + #370, #3967
+  static Screen + #371, #3967
+  static Screen + #372, #3967
+  static Screen + #373, #3967
+  static Screen + #374, #3967
+  static Screen + #375, #3967
+  static Screen + #376, #3967
+  static Screen + #377, #3967
+  static Screen + #378, #0
+  static Screen + #379, #3967
+  static Screen + #380, #3967
+  static Screen + #381, #3967
+  static Screen + #382, #3967
+  static Screen + #383, #3967
+  static Screen + #384, #0
+  static Screen + #385, #3
+  static Screen + #386, #3
+  static Screen + #387, #3967
+  static Screen + #388, #0
+  static Screen + #389, #0
+  static Screen + #390, #3
+  static Screen + #391, #0
+  static Screen + #392, #0
+  static Screen + #393, #3
+  static Screen + #394, #3
+  static Screen + #395, #3
+  static Screen + #396, #3
+  static Screen + #397, #0
+  static Screen + #398, #3967
+  static Screen + #399, #3967
+
+  ;Linha 10
+  static Screen + #400, #3967
+  static Screen + #401, #3967
+  static Screen + #402, #3967
+  static Screen + #403, #3967
+  static Screen + #404, #0
+  static Screen + #405, #3
+  static Screen + #406, #3967
+  static Screen + #407, #3967
+  static Screen + #408, #3967
+  static Screen + #409, #3967
+  static Screen + #410, #3967
+  static Screen + #411, #3967
+  static Screen + #412, #3967
+  static Screen + #413, #3967
+  static Screen + #414, #3967
+  static Screen + #415, #3967
+  static Screen + #416, #3967
+  static Screen + #417, #3967
+  static Screen + #418, #0
+  static Screen + #419, #3967
+  static Screen + #420, #3967
+  static Screen + #421, #3967
+  static Screen + #422, #3967
+  static Screen + #423, #3967
+  static Screen + #424, #0
+  static Screen + #425, #3
+  static Screen + #426, #3967
+  static Screen + #427, #3
+  static Screen + #428, #3
+  static Screen + #429, #0
+  static Screen + #430, #0
+  static Screen + #431, #0
+  static Screen + #432, #3
+  static Screen + #433, #3
+  static Screen + #434, #3
+  static Screen + #435, #3
+  static Screen + #436, #3967
+  static Screen + #437, #0
+  static Screen + #438, #3967
+  static Screen + #439, #3967
+
+  ;Linha 11
+  static Screen + #440, #3967
+  static Screen + #441, #3967
+  static Screen + #442, #3967
+  static Screen + #443, #3967
+  static Screen + #444, #0
+  static Screen + #445, #3
+  static Screen + #446, #3967
+  static Screen + #447, #3967
+  static Screen + #448, #3967
+  static Screen + #449, #3967
+  static Screen + #450, #3967
+  static Screen + #451, #3967
+  static Screen + #452, #3967
+  static Screen + #453, #3967
+  static Screen + #454, #3967
+  static Screen + #455, #3967
+  static Screen + #456, #3967
+  static Screen + #457, #3967
+  static Screen + #458, #0
+  static Screen + #459, #3967
+  static Screen + #460, #3967
+  static Screen + #461, #3967
+  static Screen + #462, #3967
+  static Screen + #463, #3
+  static Screen + #464, #0
+  static Screen + #465, #3967
+  static Screen + #466, #3967
+  static Screen + #467, #3
+  static Screen + #468, #3
+  static Screen + #469, #3
+  static Screen + #470, #0
+  static Screen + #471, #3
+  static Screen + #472, #3967
+  static Screen + #473, #3967
+  static Screen + #474, #3
+  static Screen + #475, #3
+  static Screen + #476, #3
+  static Screen + #477, #0
+  static Screen + #478, #3967
+  static Screen + #479, #3967
+
+  ;Linha 12
+  static Screen + #480, #3967
+  static Screen + #481, #3967
+  static Screen + #482, #3967
+  static Screen + #483, #3967
+  static Screen + #484, #0
+  static Screen + #485, #0
+  static Screen + #486, #0
+  static Screen + #487, #0
+  static Screen + #488, #0
+  static Screen + #489, #0
+  static Screen + #490, #0
+  static Screen + #491, #0
+  static Screen + #492, #0
+  static Screen + #493, #3967
+  static Screen + #494, #3967
+  static Screen + #495, #3967
+  static Screen + #496, #3967
+  static Screen + #497, #3967
+  static Screen + #498, #0
+  static Screen + #499, #3967
+  static Screen + #500, #3967
+  static Screen + #501, #3967
+  static Screen + #502, #3
+  static Screen + #503, #3
+  static Screen + #504, #0
+  static Screen + #505, #3967
+  static Screen + #506, #3967
+  static Screen + #507, #3967
+  static Screen + #508, #3
+  static Screen + #509, #3
+  static Screen + #510, #3
+  static Screen + #511, #3
+  static Screen + #512, #3967
+  static Screen + #513, #3
+  static Screen + #514, #3
+  static Screen + #515, #3
+  static Screen + #516, #3
+  static Screen + #517, #0
+  static Screen + #518, #3
+  static Screen + #519, #3967
+
+  ;Linha 13
+  static Screen + #520, #3967
+  static Screen + #521, #3967
+  static Screen + #522, #3967
+  static Screen + #523, #3967
+  static Screen + #524, #0
+  static Screen + #525, #3
+  static Screen + #526, #3967
+  static Screen + #527, #3967
+  static Screen + #528, #3967
+  static Screen + #529, #3967
+  static Screen + #530, #3967
+  static Screen + #531, #3967
+  static Screen + #532, #3967
+  static Screen + #533, #3967
+  static Screen + #534, #3967
+  static Screen + #535, #3967
+  static Screen + #536, #3967
+  static Screen + #537, #3967
+  static Screen + #538, #0
+  static Screen + #539, #3967
+  static Screen + #540, #3967
+  static Screen + #541, #3967
+  static Screen + #542, #3
+  static Screen + #543, #3
+  static Screen + #544, #0
+  static Screen + #545, #3967
+  static Screen + #546, #3967
+  static Screen + #547, #3967
+  static Screen + #548, #3
+  static Screen + #549, #3
+  static Screen + #550, #3967
+  static Screen + #551, #3967
+  static Screen + #552, #3967
+  static Screen + #553, #3967
+  static Screen + #554, #3
+  static Screen + #555, #3
+  static Screen + #556, #3967
+  static Screen + #557, #0
+  static Screen + #558, #3
+  static Screen + #559, #3967
+
+  ;Linha 14
+  static Screen + #560, #3967
+  static Screen + #561, #3967
+  static Screen + #562, #3967
+  static Screen + #563, #3967
+  static Screen + #564, #0
+  static Screen + #565, #3
+  static Screen + #566, #3967
+  static Screen + #567, #3967
+  static Screen + #568, #3967
+  static Screen + #569, #3967
+  static Screen + #570, #3967
+  static Screen + #571, #3967
+  static Screen + #572, #3967
+  static Screen + #573, #3967
+  static Screen + #574, #3967
+  static Screen + #575, #3967
+  static Screen + #576, #3967
+  static Screen + #577, #3967
+  static Screen + #578, #0
+  static Screen + #579, #3967
+  static Screen + #580, #3967
+  static Screen + #581, #3967
+  static Screen + #582, #3
+  static Screen + #583, #3
+  static Screen + #584, #0
+  static Screen + #585, #3967
+  static Screen + #586, #3967
+  static Screen + #587, #3967
+  static Screen + #588, #3967
+  static Screen + #589, #3
+  static Screen + #590, #3
+  static Screen + #591, #3967
+  static Screen + #592, #3967
+  static Screen + #593, #3967
+  static Screen + #594, #3
+  static Screen + #595, #3
+  static Screen + #596, #3
+  static Screen + #597, #0
+  static Screen + #598, #3
+  static Screen + #599, #3967
+
+  ;Linha 15
+  static Screen + #600, #3967
+  static Screen + #601, #3967
+  static Screen + #602, #3967
+  static Screen + #603, #3967
+  static Screen + #604, #0
+  static Screen + #605, #3
+  static Screen + #606, #3967
+  static Screen + #607, #3967
+  static Screen + #608, #3967
+  static Screen + #609, #3967
+  static Screen + #610, #3967
+  static Screen + #611, #3967
+  static Screen + #612, #3967
+  static Screen + #613, #3967
+  static Screen + #614, #3967
+  static Screen + #615, #3967
+  static Screen + #616, #3967
+  static Screen + #617, #3967
+  static Screen + #618, #0
+  static Screen + #619, #3967
+  static Screen + #620, #3967
+  static Screen + #621, #3967
+  static Screen + #622, #3
+  static Screen + #623, #3
+  static Screen + #624, #0
+  static Screen + #625, #3967
+  static Screen + #626, #3967
+  static Screen + #627, #3967
+  static Screen + #628, #3967
+  static Screen + #629, #3
+  static Screen + #630, #3
+  static Screen + #631, #3967
+  static Screen + #632, #3967
+  static Screen + #633, #3967
+  static Screen + #634, #3
+  static Screen + #635, #3
+  static Screen + #636, #3
+  static Screen + #637, #0
+  static Screen + #638, #3
+  static Screen + #639, #3967
+
+  ;Linha 16
+  static Screen + #640, #3967
+  static Screen + #641, #3967
+  static Screen + #642, #3967
+  static Screen + #643, #3967
+  static Screen + #644, #0
+  static Screen + #645, #3
+  static Screen + #646, #3967
+  static Screen + #647, #3967
+  static Screen + #648, #3967
+  static Screen + #649, #3967
+  static Screen + #650, #3967
+  static Screen + #651, #3967
+  static Screen + #652, #3967
+  static Screen + #653, #3967
+  static Screen + #654, #3967
+  static Screen + #655, #3967
+  static Screen + #656, #3967
+  static Screen + #657, #3967
+  static Screen + #658, #0
+  static Screen + #659, #3967
+  static Screen + #660, #3967
+  static Screen + #661, #3967
+  static Screen + #662, #3
+  static Screen + #663, #3
+  static Screen + #664, #0
+  static Screen + #665, #3967
+  static Screen + #666, #3967
+  static Screen + #667, #3967
+  static Screen + #668, #3967
+  static Screen + #669, #3
+  static Screen + #670, #3
+  static Screen + #671, #3967
+  static Screen + #672, #3967
+  static Screen + #673, #3
+  static Screen + #674, #3
+  static Screen + #675, #3
+  static Screen + #676, #3967
+  static Screen + #677, #0
+  static Screen + #678, #3
+  static Screen + #679, #3967
+
+  ;Linha 17
+  static Screen + #680, #3967
+  static Screen + #681, #3967
+  static Screen + #682, #3967
+  static Screen + #683, #3967
+  static Screen + #684, #0
+  static Screen + #685, #3
+  static Screen + #686, #3967
+  static Screen + #687, #3967
+  static Screen + #688, #3967
+  static Screen + #689, #3967
+  static Screen + #690, #3967
+  static Screen + #691, #3967
+  static Screen + #692, #3967
+  static Screen + #693, #3967
+  static Screen + #694, #3967
+  static Screen + #695, #3967
+  static Screen + #696, #3967
+  static Screen + #697, #3967
+  static Screen + #698, #0
+  static Screen + #699, #3967
+  static Screen + #700, #3967
+  static Screen + #701, #3
+  static Screen + #702, #3
+  static Screen + #703, #3
+  static Screen + #704, #0
+  static Screen + #705, #3967
+  static Screen + #706, #3967
+  static Screen + #707, #3967
+  static Screen + #708, #3967
+  static Screen + #709, #3967
+  static Screen + #710, #3967
+  static Screen + #711, #3967
+  static Screen + #712, #3967
+  static Screen + #713, #3967
+  static Screen + #714, #3967
+  static Screen + #715, #3
+  static Screen + #716, #3
+  static Screen + #717, #0
+  static Screen + #718, #3
+  static Screen + #719, #3967
+
+  ;Linha 18
+  static Screen + #720, #3967
+  static Screen + #721, #3967
+  static Screen + #722, #3967
+  static Screen + #723, #3967
+  static Screen + #724, #0
+  static Screen + #725, #3
+  static Screen + #726, #3967
+  static Screen + #727, #3967
+  static Screen + #728, #3967
+  static Screen + #729, #3967
+  static Screen + #730, #3967
+  static Screen + #731, #3967
+  static Screen + #732, #3967
+  static Screen + #733, #3967
+  static Screen + #734, #3967
+  static Screen + #735, #3967
+  static Screen + #736, #3967
+  static Screen + #737, #3967
+  static Screen + #738, #0
+  static Screen + #739, #3967
+  static Screen + #740, #3967
+  static Screen + #741, #3
+  static Screen + #742, #3
+  static Screen + #743, #3
+  static Screen + #744, #0
+  static Screen + #745, #3967
+  static Screen + #746, #3967
+  static Screen + #747, #3967
+  static Screen + #748, #3967
+  static Screen + #749, #3967
+  static Screen + #750, #3967
+  static Screen + #751, #3967
+  static Screen + #752, #3967
+  static Screen + #753, #3967
+  static Screen + #754, #3
+  static Screen + #755, #3
+  static Screen + #756, #3
+  static Screen + #757, #0
+  static Screen + #758, #3967
+  static Screen + #759, #3967
+
+  ;Linha 19
+  static Screen + #760, #3967
+  static Screen + #761, #3967
+  static Screen + #762, #3967
+  static Screen + #763, #3967
+  static Screen + #764, #0
+  static Screen + #765, #3
+  static Screen + #766, #3967
+  static Screen + #767, #3967
+  static Screen + #768, #3967
+  static Screen + #769, #3967
+  static Screen + #770, #3967
+  static Screen + #771, #3967
+  static Screen + #772, #3967
+  static Screen + #773, #3967
+  static Screen + #774, #3967
+  static Screen + #775, #3967
+  static Screen + #776, #3967
+  static Screen + #777, #3967
+  static Screen + #778, #0
+  static Screen + #779, #3967
+  static Screen + #780, #3967
+  static Screen + #781, #3
+  static Screen + #782, #3
+  static Screen + #783, #3
+  static Screen + #784, #0
+  static Screen + #785, #3967
+  static Screen + #786, #3967
+  static Screen + #787, #3967
+  static Screen + #788, #3967
+  static Screen + #789, #3967
+  static Screen + #790, #3967
+  static Screen + #791, #3967
+  static Screen + #792, #3967
+  static Screen + #793, #3
+  static Screen + #794, #3
+  static Screen + #795, #3
+  static Screen + #796, #3
+  static Screen + #797, #0
+  static Screen + #798, #3967
+  static Screen + #799, #3967
+
+  ;Linha 20
+  static Screen + #800, #3967
+  static Screen + #801, #3967
+  static Screen + #802, #3967
+  static Screen + #803, #3967
+  static Screen + #804, #0
+  static Screen + #805, #3967
+  static Screen + #806, #3967
+  static Screen + #807, #3967
+  static Screen + #808, #3967
+  static Screen + #809, #3967
+  static Screen + #810, #3967
+  static Screen + #811, #3967
+  static Screen + #812, #3967
+  static Screen + #813, #3967
+  static Screen + #814, #3967
+  static Screen + #815, #3967
+  static Screen + #816, #3967
+  static Screen + #817, #3967
+  static Screen + #818, #0
+  static Screen + #819, #3967
+  static Screen + #820, #3967
+  static Screen + #821, #3967
+  static Screen + #822, #3
+  static Screen + #823, #3
+  static Screen + #824, #0
+  static Screen + #825, #3967
+  static Screen + #826, #3967
+  static Screen + #827, #3967
+  static Screen + #828, #3967
+  static Screen + #829, #3967
+  static Screen + #830, #3967
+  static Screen + #831, #3967
+  static Screen + #832, #3967
+  static Screen + #833, #3
+  static Screen + #834, #3
+  static Screen + #835, #3
+  static Screen + #836, #3
+  static Screen + #837, #0
+  static Screen + #838, #3967
+  static Screen + #839, #3967
+
+  ;Linha 21
+  static Screen + #840, #3967
+  static Screen + #841, #3967
+  static Screen + #842, #3967
+  static Screen + #843, #3967
+  static Screen + #844, #0
+  static Screen + #845, #3967
+  static Screen + #846, #3967
+  static Screen + #847, #3967
+  static Screen + #848, #3967
+  static Screen + #849, #3967
+  static Screen + #850, #3967
+  static Screen + #851, #3967
+  static Screen + #852, #3967
+  static Screen + #853, #3967
+  static Screen + #854, #3967
+  static Screen + #855, #3967
+  static Screen + #856, #3967
+  static Screen + #857, #3967
+  static Screen + #858, #0
+  static Screen + #859, #3967
+  static Screen + #860, #3967
+  static Screen + #861, #3967
+  static Screen + #862, #3
+  static Screen + #863, #3967
+  static Screen + #864, #0
+  static Screen + #865, #3967
+  static Screen + #866, #3967
+  static Screen + #867, #3967
+  static Screen + #868, #3967
+  static Screen + #869, #3967
+  static Screen + #870, #3967
+  static Screen + #871, #3967
+  static Screen + #872, #3967
+  static Screen + #873, #3967
+  static Screen + #874, #3967
+  static Screen + #875, #3
+  static Screen + #876, #3
+  static Screen + #877, #0
+  static Screen + #878, #3967
+  static Screen + #879, #3967
+
+  ;Linha 22
+  static Screen + #880, #3967
+  static Screen + #881, #3967
+  static Screen + #882, #3967
+  static Screen + #883, #3967
+  static Screen + #884, #0
+  static Screen + #885, #3967
+  static Screen + #886, #3967
+  static Screen + #887, #3967
+  static Screen + #888, #3967
+  static Screen + #889, #3967
+  static Screen + #890, #3967
+  static Screen + #891, #3967
+  static Screen + #892, #3967
+  static Screen + #893, #3967
+  static Screen + #894, #3967
+  static Screen + #895, #3967
+  static Screen + #896, #3967
+  static Screen + #897, #3967
+  static Screen + #898, #0
+  static Screen + #899, #3967
+  static Screen + #900, #3967
+  static Screen + #901, #3967
+  static Screen + #902, #3
+  static Screen + #903, #3967
+  static Screen + #904, #0
+  static Screen + #905, #3
+  static Screen + #906, #3
+  static Screen + #907, #3
+  static Screen + #908, #3
+  static Screen + #909, #3
+  static Screen + #910, #3
+  static Screen + #911, #3
+  static Screen + #912, #3
+  static Screen + #913, #3
+  static Screen + #914, #3
+  static Screen + #915, #3
+  static Screen + #916, #3
+  static Screen + #917, #0
+  static Screen + #918, #3967
+  static Screen + #919, #3967
+
+  ;Linha 23
+  static Screen + #920, #3967
+  static Screen + #921, #0
+  static Screen + #922, #0
+  static Screen + #923, #0
+  static Screen + #924, #0
+  static Screen + #925, #0
+  static Screen + #926, #0
+  static Screen + #927, #0
+  static Screen + #928, #0
+  static Screen + #929, #0
+  static Screen + #930, #0
+  static Screen + #931, #0
+  static Screen + #932, #0
+  static Screen + #933, #0
+  static Screen + #934, #0
+  static Screen + #935, #0
+  static Screen + #936, #0
+  static Screen + #937, #0
+  static Screen + #938, #0
+  static Screen + #939, #0
+  static Screen + #940, #0
+  static Screen + #941, #0
+  static Screen + #942, #0
+  static Screen + #943, #0
+  static Screen + #944, #0
+  static Screen + #945, #0
+  static Screen + #946, #0
+  static Screen + #947, #0
+  static Screen + #948, #0
+  static Screen + #949, #0
+  static Screen + #950, #0
+  static Screen + #951, #0
+  static Screen + #952, #0
+  static Screen + #953, #0
+  static Screen + #954, #0
+  static Screen + #955, #0
+  static Screen + #956, #0
+  static Screen + #957, #0
+  static Screen + #958, #0
+  static Screen + #959, #0
+
+  ;Linha 24
+  static Screen + #960, #3967
+  static Screen + #961, #3967
+  static Screen + #962, #3967
+  static Screen + #963, #3967
+  static Screen + #964, #2
+  static Screen + #965, #2
+  static Screen + #966, #3967
+  static Screen + #967, #3967
+  static Screen + #968, #3967
+  static Screen + #969, #3967
+  static Screen + #970, #3967
+  static Screen + #971, #3967
+  static Screen + #972, #3967
+  static Screen + #973, #3967
+  static Screen + #974, #3967
+  static Screen + #975, #3967
+  static Screen + #976, #3967
+  static Screen + #977, #3967
+  static Screen + #978, #3967
+  static Screen + #979, #3967
+  static Screen + #980, #3967
+  static Screen + #981, #3967
+  static Screen + #982, #3
+  static Screen + #983, #3
+  static Screen + #984, #3967
+  static Screen + #985, #3967
+  static Screen + #986, #3967
+  static Screen + #987, #3967
+  static Screen + #988, #3967
+  static Screen + #989, #3967
+  static Screen + #990, #3967
+  static Screen + #991, #3967
+  static Screen + #992, #3967
+  static Screen + #993, #3967
+  static Screen + #994, #3967
+  static Screen + #995, #3
+  static Screen + #996, #3967
+  static Screen + #997, #2
+  static Screen + #998, #3967
+  static Screen + #999, #3967
+
+  ;Linha 25
+  static Screen + #1000, #3967
+  static Screen + #1001, #3967
+  static Screen + #1002, #3967
+  static Screen + #1003, #3967
+  static Screen + #1004, #3967
+  static Screen + #1005, #2
+  static Screen + #1006, #2
+  static Screen + #1007, #3967
+  static Screen + #1008, #3967
+  static Screen + #1009, #3967
+  static Screen + #1010, #3967
+  static Screen + #1011, #3967
+  static Screen + #1012, #3967
+  static Screen + #1013, #3967
+  static Screen + #1014, #3967
+  static Screen + #1015, #3967
+  static Screen + #1016, #3967
+  static Screen + #1017, #3967
+  static Screen + #1018, #3967
+  static Screen + #1019, #3967
+  static Screen + #1020, #3967
+  static Screen + #1021, #3967
+  static Screen + #1022, #3967
+  static Screen + #1023, #3967
+  static Screen + #1024, #3967
+  static Screen + #1025, #3967
+  static Screen + #1026, #3967
+  static Screen + #1027, #3967
+  static Screen + #1028, #3967
+  static Screen + #1029, #3967
+  static Screen + #1030, #3967
+  static Screen + #1031, #3967
+  static Screen + #1032, #3967
+  static Screen + #1033, #3967
+  static Screen + #1034, #3967
+  static Screen + #1035, #2
+  static Screen + #1036, #2
+  static Screen + #1037, #2
+  static Screen + #1038, #3967
+  static Screen + #1039, #3967
+
+  ;Linha 26
+  static Screen + #1040, #3967
+  static Screen + #1041, #3967
+  static Screen + #1042, #3967
+  static Screen + #1043, #3967
+  static Screen + #1044, #3967
+  static Screen + #1045, #3967
+  static Screen + #1046, #2
+  static Screen + #1047, #2
+  static Screen + #1048, #2
+  static Screen + #1049, #3967
+  static Screen + #1050, #3967
+  static Screen + #1051, #3967
+  static Screen + #1052, #3967
+  static Screen + #1053, #3967
+  static Screen + #1054, #3967
+  static Screen + #1055, #3967
+  static Screen + #1056, #3967
+  static Screen + #1057, #3967
+  static Screen + #1058, #3967
+  static Screen + #1059, #3967
+  static Screen + #1060, #3967
+  static Screen + #1061, #3967
+  static Screen + #1062, #3967
+  static Screen + #1063, #3967
+  static Screen + #1064, #3967
+  static Screen + #1065, #3967
+  static Screen + #1066, #3967
+  static Screen + #1067, #3967
+  static Screen + #1068, #3967
+  static Screen + #1069, #3967
+  static Screen + #1070, #3967
+  static Screen + #1071, #3967
+  static Screen + #1072, #3967
+  static Screen + #1073, #3967
+  static Screen + #1074, #2
+  static Screen + #1075, #2
+  static Screen + #1076, #3967
+  static Screen + #1077, #3967
+  static Screen + #1078, #3967
+  static Screen + #1079, #3967
+
+  ;Linha 27
+  static Screen + #1080, #3967
+  static Screen + #1081, #3967
+  static Screen + #1082, #3967
+  static Screen + #1083, #3967
+  static Screen + #1084, #3967
+  static Screen + #1085, #3967
+  static Screen + #1086, #3967
+  static Screen + #1087, #3967
+  static Screen + #1088, #2
+  static Screen + #1089, #2
+  static Screen + #1090, #2
+  static Screen + #1091, #2
+  static Screen + #1092, #2
+  static Screen + #1093, #2
+  static Screen + #1094, #2
+  static Screen + #1095, #2
+  static Screen + #1096, #2
+  static Screen + #1097, #2
+  static Screen + #1098, #2
+  static Screen + #1099, #2
+  static Screen + #1100, #3967
+  static Screen + #1101, #2
+  static Screen + #1102, #2
+  static Screen + #1103, #2
+  static Screen + #1104, #2
+  static Screen + #1105, #2
+  static Screen + #1106, #2
+  static Screen + #1107, #2
+  static Screen + #1108, #2
+  static Screen + #1109, #2
+  static Screen + #1110, #2
+  static Screen + #1111, #2
+  static Screen + #1112, #2
+  static Screen + #1113, #2
+  static Screen + #1114, #2
+  static Screen + #1115, #3967
+  static Screen + #1116, #3967
+  static Screen + #1117, #3967
+  static Screen + #1118, #3967
+  static Screen + #1119, #3967
+
+  ;Linha 28
+  static Screen + #1120, #3967
+  static Screen + #1121, #3967
+  static Screen + #1122, #3967
+  static Screen + #1123, #3967
+  static Screen + #1124, #3967
+  static Screen + #1125, #3967
+  static Screen + #1126, #3967
+  static Screen + #1127, #3967
+  static Screen + #1128, #3967
+  static Screen + #1129, #3967
+  static Screen + #1130, #3967
+  static Screen + #1131, #3967
+  static Screen + #1132, #3967
+  static Screen + #1133, #3967
+  static Screen + #1134, #3967
+  static Screen + #1135, #3967
+  static Screen + #1136, #3967
+  static Screen + #1137, #3967
+  static Screen + #1138, #3967
+  static Screen + #1139, #2
+  static Screen + #1140, #2
+  static Screen + #1141, #2
+  static Screen + #1142, #3967
+  static Screen + #1143, #3967
+  static Screen + #1144, #3967
+  static Screen + #1145, #3967
+  static Screen + #1146, #3967
+  static Screen + #1147, #3967
+  static Screen + #1148, #3967
+  static Screen + #1149, #3967
+  static Screen + #1150, #3967
+  static Screen + #1151, #3967
+  static Screen + #1152, #3967
+  static Screen + #1153, #3967
+  static Screen + #1154, #3967
+  static Screen + #1155, #3967
+  static Screen + #1156, #3967
+  static Screen + #1157, #3967
+  static Screen + #1158, #3967
+  static Screen + #1159, #3967
+
+  ;Linha 29
+  static Screen + #1160, #3967
+  static Screen + #1161, #3967
+  static Screen + #1162, #3967
+  static Screen + #1163, #3967
+  static Screen + #1164, #3967
+  static Screen + #1165, #3967
+  static Screen + #1166, #3967
+  static Screen + #1167, #3967
+  static Screen + #1168, #3967
+  static Screen + #1169, #3967
+  static Screen + #1170, #3967
+  static Screen + #1171, #3967
+  static Screen + #1172, #3967
+  static Screen + #1173, #3967
+  static Screen + #1174, #3967
+  static Screen + #1175, #3967
+  static Screen + #1176, #3967
+  static Screen + #1177, #3967
+  static Screen + #1178, #3967
+  static Screen + #1179, #3967
+  static Screen + #1180, #3967
+  static Screen + #1181, #3967
+  static Screen + #1182, #3967
+  static Screen + #1183, #3967
+  static Screen + #1184, #3967
+  static Screen + #1185, #3967
+  static Screen + #1186, #3967
+  static Screen + #1187, #3967
+  static Screen + #1188, #3967
+  static Screen + #1189, #3967
+  static Screen + #1190, #3967
+  static Screen + #1191, #3967
+  static Screen + #1192, #3967
+  static Screen + #1193, #3967
+  static Screen + #1194, #3967
+  static Screen + #1195, #3967
+  static Screen + #1196, #3967
+  static Screen + #1197, #3967
+  static Screen + #1198, #3967
+  static Screen + #1199, #3967
 
 fase1 : var #1200
 ;Linha 0
