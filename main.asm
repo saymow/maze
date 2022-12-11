@@ -1,7 +1,9 @@
 characterPosition: var #1
 characterLastPosition: var #1
 seed: var #1
+seed1: var #1
 fase: var #1
+period: var #1
 
 jmp main
 
@@ -18,18 +20,35 @@ main:
 		loadn r0, #41 ;--posicao inicial
 		store characterPosition, r0
 		
+		loadn r0, #30
+		store period, r0
+		
+		loadn r0, #0
+		store seed1, r0
+		
 		loadn r0, #0
 		loadn r1, #0
 			
 		Loop:
-			loadn r2, #30
+			load r2, period
 			mod r2, r0, r2
 			cmp r2, r1
-			ceq MoveChar 
+			ceq MoveCharAndIncrementsCounter 
 			
 			call Delay
 			inc r0
 			jmp Loop
+			
+	MoveCharAndIncrementsCounter:
+		push r5
+
+		load r5, seed1
+		inc r5
+		store seed1, r5
+		call MoveChar
+
+		pop r5
+		rts	
 		
 	End:
 		call PrintBlackScreen
@@ -114,12 +133,11 @@ MoveChar:
 	load r0, characterPosition
 	load r1, characterLastPosition
 
-	call finishIfCan
-	call randomEventsIfCan 
-		
 	cmp r0, r1
 	jeq MoverChar_End
 	
+	call finishIfCan
+	call randomEventsIfCan 
 	call refreshBrightedArea
 	call eraseChar
 	call DrawChar
@@ -129,7 +147,8 @@ MoveChar:
 	pop r0
 	rts
 	
-finishIfCan: 
+finishIfCan:
+	push r0 
 	push r1
 	push r2
 	push r3
@@ -148,39 +167,70 @@ finishIfCan:
 	pop r3
 	pop r2
 	pop r1
+	pop r0
 	rts
 	
-randomEventsIfCan: 
+randomEventsIfCan:
+	push r0 
 	push r1
 	push r2
 	push r3
 	push r4
 	
-	loadn r4, #3 ;final charcode
+	loadn r4, #3 ;random events charcode
 	
 	load r1, fase
 	add r2, r1, r0
 	loadi r3, r2
 	
-	cmp r3, r4
-	jeq handleRandomEvent
+ 	cmp r3, r4
+	jne randomEventsIfCanEnd
+	
+	loadn r5, #3967 ;black block charcode
+	storei r2, r5
+	call handleRandomEvent
+	
+	randomEventsIfCanEnd:
 	
 	pop r4
 	pop r3
 	pop r2
 	pop r1
+	pop r0
 	rts
 
 handleRandomEvent:
+	push r0
 	push r1
 	push r2
 	push r3
 	
-	jmp initialSetup
+	loadn r1, #2
+	load r2, seed1 
+	
+	mod r1, r2, r1
+	
+	loadn r3, #0
+	cmp r1, r3
+	jeq handleEvent1
+	
+	loadn r3, #1
+	cmp r1, r3
+	jeq handleEvent2
+	
+	handleEvent1: 
+		jmp initialSetup
+	handleEvent2: 
+		loadn r1, #200
+		store period, r1
+		jmp handleEventEnd
+	 	
+	handleEventEnd:
 	
 	pop r3
 	pop r2
 	pop r1
+	pop r0
 	rts
 
 CalcCharPosition: 
