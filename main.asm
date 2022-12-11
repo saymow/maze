@@ -14,22 +14,26 @@ main:
 	
 	call seedMap
     
-	loadn r0, #41 ;--posicao inicial
-	store characterPosition, r0	
-	
-	loadn r0, #0
-	loadn r1, #0
+    initialSetup: 
+		loadn r0, #41 ;--posicao inicial
+		store characterPosition, r0
 		
-	Loop:
-		loadn r2, #30
-		mod r2, r0, r2
-		cmp r2, r1
-		ceq MoveChar 
+		loadn r0, #0
+		loadn r1, #0
+			
+		Loop:
+			loadn r2, #30
+			mod r2, r0, r2
+			cmp r2, r1
+			ceq MoveChar 
+			
+			call Delay
+			inc r0
+			jmp Loop
 		
-		call Delay
-		inc r0
-		jmp Loop
-	
+	End:
+		call PrintBlackScreen
+		
 	halt
 	
 ;---- Fim do Programa Principal -----
@@ -109,6 +113,9 @@ MoveChar:
 	
 	load r0, characterPosition
 	load r1, characterLastPosition
+
+	call finishIfCan
+	call randomEventsIfCan 
 		
 	cmp r0, r1
 	jeq MoverChar_End
@@ -120,6 +127,60 @@ MoveChar:
 	MoverChar_End:
 	pop r1
 	pop r0
+	rts
+	
+finishIfCan: 
+	push r1
+	push r2
+	push r3
+	push r4
+	
+	loadn r4, #514 ;final charcode
+	
+	load r1, fase
+	add r2, r1, r0
+	loadi r3, r2
+	
+	cmp r3, r4
+	jeq End
+	
+	pop r4
+	pop r3
+	pop r2
+	pop r1
+	rts
+	
+randomEventsIfCan: 
+	push r1
+	push r2
+	push r3
+	push r4
+	
+	loadn r4, #3 ;final charcode
+	
+	load r1, fase
+	add r2, r1, r0
+	loadi r3, r2
+	
+	cmp r3, r4
+	jeq handleRandomEvent
+	
+	pop r4
+	pop r3
+	pop r2
+	pop r1
+	rts
+
+handleRandomEvent:
+	push r1
+	push r2
+	push r3
+	
+	jmp initialSetup
+	
+	pop r3
+	pop r2
+	pop r1
 	rts
 
 CalcCharPosition: 
@@ -1909,7 +1970,7 @@ static fase1 + #41, #1
 static fase1 + #42, #3967
 static fase1 + #43, #3967
 static fase1 + #44, #3967
-static fase1 + #45, #3967
+static fase1 + #45, #3
 static fase1 + #46, #3967
 static fase1 + #47, #3967
 static fase1 + #48, #3967
@@ -3172,7 +3233,7 @@ fase2 : var #1200
   static fase2 + #42, #3967
   static fase2 + #43, #3967
   static fase2 + #44, #3967
-  static fase2 + #45, #3967
+  static fase2 + #45, #3
   static fase2 + #46, #3967
   static fase2 + #47, #3967
   static fase2 + #48, #3967
@@ -4434,7 +4495,7 @@ static fase3 + #42, #3967
 static fase3 + #43, #3967
 static fase3 + #44, #3967
 static fase3 + #45, #3967
-static fase3 + #46, #3967
+static fase3 + #46, #3
 static fase3 + #47, #3967
 static fase3 + #48, #3967
 static fase3 + #49, #3967
