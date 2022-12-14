@@ -88,9 +88,7 @@ seedMap:
 	loadn r0, #3
 	load r2,seed
 	
-	
 	mod r0, r2, r0
-	
 	
 	loadn r1, #0
 	cmp r1,r0
@@ -124,7 +122,7 @@ seedMap:
 	pop r0
 	rts ; com base no contador "seed", seleciona um dos mapas
 	
-MoveChar: 
+MoveChar: ; lida com toda interação de mover o char
 	push r0
 	push r1
 	
@@ -145,9 +143,9 @@ MoveChar:
 	MoverChar_End:
 	pop r1
 	pop r0
-	rts; ; lida com toda interação de mover o char
+	rts; 
 	
-finishIfCan:
+finishIfCan: ; finaliza o jogo se chegar na posição final
 	push r0 
 	push r1
 	push r2
@@ -168,9 +166,9 @@ finishIfCan:
 	pop r2
 	pop r1
 	pop r0
-	rts; finaliza o jogo se chegar na posição final
+	rts
 	
-randomEventsIfCan:
+randomEventsIfCan: ; chama o handler de eventos se chegar na posição de eventos
 	push r0 
 	push r1
 	push r2
@@ -197,16 +195,16 @@ randomEventsIfCan:
 	pop r2
 	pop r1
 	pop r0
-	rts; chama o handler de eventos se chegar na posição de eventos
+	rts
 
-handleRandomEvent:
+handleRandomEvent: ; lança um evento aleatório no mapa, com base no contador "seed1"
 	push r0
 	push r1
 	push r2
 	push r3
 	
 	loadn r1, #4
-	load r2, seed 
+	load r2, seed1 
 	
 	mod r1, r2, r1
 	
@@ -249,9 +247,9 @@ handleRandomEvent:
 	pop r2
 	pop r1
 	pop r0
-	rts; lança um evento aleatório no mapa, com base no contador "seed1"
+	rts
 
-CalcCharPosition: 
+CalcCharPosition: ; "ouve" as teclas e calcula a nova posição
 	push r0
 	push r1
 	push r2
@@ -290,7 +288,7 @@ CalcCharPosition:
 	pop r2
 	pop r1
 	pop r0
-	rts; ; "ouve" as teclas e calcula a nova posição
+	rts; 
 
 CalcCharPositionUp: 
 	loadn r1, #40
@@ -325,7 +323,7 @@ CalcCharPositionRight:
 	inc r0
 	jmp checkCollision
 
-ensureMoveWontCollide:
+ensureMoveWontCollide: ; evita colisões no mapa 
 	push r1
 	push r2
 	push r3
@@ -346,9 +344,9 @@ ensureMoveWontCollide:
 	pop r3
 	pop r2
 	pop r1
-	rts; evita colisões no mapa 
+	rts
 
-eraseChar: 
+eraseChar: ; apaga o boneco
 	push r0
 	push r1
 	push r2
@@ -365,9 +363,9 @@ eraseChar:
 	pop r2
 	pop r1
 	pop r0
-	rts; apaga o boneco
+	rts
 
-DrawChar:
+DrawChar: ; desenha o boneco
 	push r0
 	push r1
 	
@@ -378,7 +376,7 @@ DrawChar:
 	
 	pop r1
 	pop r2
-	rts; desenha o boneco
+	rts
 
 refreshBrightedArea: ; faz o refresh da área visível do boneco
 	push r0
@@ -3362,10 +3360,10 @@ static fase1 + #44, #3967
 static fase1 + #45, #3
 static fase1 + #46, #3967
 static fase1 + #47, #3967
-static fase1 + #48, #3967
+static fase1 + #48, #3
 static fase1 + #49, #3967
 static fase1 + #50, #3967
-static fase1 + #51, #3967
+static fase1 + #51, #3
 static fase1 + #52, #3967
 static fase1 + #53, #3967
 static fase1 + #54, #3967
