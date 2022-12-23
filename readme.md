@@ -8,8 +8,11 @@
     - [x] Mostrar o escurece por alguns segundos
     - [x] O boneco "morre" e volta para posição inicial 
  
+## Alunos:
+    - Beatriz Vieira
+    - Gabriel Carvalho
+    - Gustavo Alves
+    - Frederico Xavier 
 
-Beatriz Vieira
-Gabriel Carvalho
-Gustavo Alves
-Frederico Xavier
+## Vídeo:
+https://drive.google.com/file/d/1icJhk_wESH0BjpGCuu_Gm4BByhItKead/view?usp=sharing
